@@ -1,189 +1,121 @@
-import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Smartphone, 
-  Search, 
-  RefreshCw, 
-  Shield, 
-  Share2, 
-  Zap,
-  Star,
-  Users,
-  BarChart3,
-  Clock,
+import {
+  Smartphone,
+  Search,
+  RefreshCw,
+  Shield,
+  Share2,
   Globe,
-  Award
 } from 'lucide-react';
 
 const features = [
   {
     icon: Smartphone,
-    title: "NFC Technology",
-    description: "Simply tap your Elite Card against any smartphone to instantly share your contact information",
-    badge: "Advanced",
-    color: "primary"
+    title: 'NFC Tap to Connect',
+    description: 'One tap shares your full contact profile instantly. Works through phone cases with our fractal antenna.',
   },
   {
     icon: Search,
-    title: "Keyword Search Magic",
-    description: "Clients can find you by typing 'home', 'insurance', or any keyword - even if they forgot your name",
-    badge: "Exclusive",
-    color: "accent"
+    title: 'Keyword Search Magic',
+    description: 'Clients find you by typing "home", "insurance", or any keyword — even if they forgot your name.',
   },
   {
     icon: RefreshCw,
-    title: "Real-Time Updates",
-    description: "Change your information anytime, anywhere. All your cards update instantly across all devices",
-    badge: "Dynamic",
-    color: "primary"
+    title: 'Real-Time Updates',
+    description: "Edit your info 24/7. Changes sync instantly to all cards you've ever shared.",
   },
   {
     icon: Shield,
-    title: "Premium Quality Cards",
-    description: "New card every 6 months. Choose from Matte White, Midnight Edition, or custom photo designs",
-    badge: "Premium",
-    color: "accent"
+    title: 'Premium Card Quality',
+    description: 'New card every 6 months. Matte White, Midnight Edition, reflective gold, or custom photo.',
   },
   {
     icon: Share2,
-    title: "Save as Phone App",
-    description: "Your contact profile becomes a phone app - share via AirDrop, text, email, and more",
-    badge: "Smart",
-    color: "primary"
+    title: 'Save as Phone App',
+    description: 'Your contact becomes a phone app. Share via AirDrop, text, email, and more.',
   },
   {
     icon: Globe,
-    title: "Unlimited Links",
-    description: "Website, social media, portfolios - have all your important links in one place",
-    badge: "Complete",
-    color: "accent"
-  }
+    title: 'Unlimited Links',
+    description: 'Website, social media, portfolios — all your important links in one place.',
+  },
+];
+
+const stats = [
+  { value: '500%', label: 'More Referrals' },
+  { value: '10K+', label: 'Professionals' },
+  { value: '24/7', label: 'Always Active' },
+  { value: '99.9%', label: 'Reliability' },
 ];
 
 export const FeaturesSection = () => {
-  const [visibleFeatures, setVisibleFeatures] = useState<number[]>([]);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // Stagger the animation of features
-            features.forEach((_, index) => {
-              setTimeout(() => {
-                setVisibleFeatures(prev => [...prev, index]);
-              }, index * 150);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isRevealed } = useScrollReveal();
 
   return (
-    <section ref={sectionRef} className="py-24 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-primary/20 text-primary border-primary/30">Revolutionary Features</Badge>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="gradient-text">Why Elite Cards</span>
+    <section ref={ref} className="py-32 relative">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20 max-w-3xl mx-auto"
+        >
+          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium">
+            Why Elite Cards
+          </Badge>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+            Dominate Your
             <br />
-            <span className="text-foreground">Dominate Networking</span>
+            <span className="font-serif italic gradient-gold">Networking Game</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Every feature designed to maximize your professional connections and generate more referrals
+          <p className="text-lg text-muted-foreground font-light leading-relaxed">
+            Every feature engineered to maximize connections and generate referrals automatically.
           </p>
-        </div>
+        </motion.div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           {features.map((feature, index) => {
             const Icon = feature.icon;
-            const isVisible = visibleFeatures.includes(index);
-            
             return (
-              <Card 
+              <motion.div
                 key={index}
-                className={`glass-effect hover-glow group cursor-pointer transition-all duration-500 ${
-                  isVisible ? 'animate-reveal' : 'opacity-0 translate-y-8'
-                }`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <CardContent className="p-8">
-                  <div className="flex items-start gap-4">
-                    <div className={`p-3 rounded-xl ${
-                      feature.color === 'primary' ? 'bg-primary/20' : 'bg-accent/20'
-                    } group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className={`w-6 h-6 ${
-                        feature.color === 'primary' ? 'text-primary' : 'text-accent'
-                      }`} />
+                <Card className="liquid-glass border-0 h-full hover-lift cursor-default group">
+                  <CardContent className="p-8">
+                    <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500">
+                      <Icon className="w-5 h-5 text-foreground" />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {feature.title}
-                        </h3>
-                        <Badge variant="outline" className={`text-xs ${
-                          feature.color === 'primary' ? 'border-primary/50 text-primary' : 'border-accent/50 text-accent'
-                        }`}>
-                          {feature.badge}
-                        </Badge>
-                      </div>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                    <h3 className="text-lg font-semibold tracking-tight mb-2">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Success Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { value: "500%", label: "Increase in Referrals", icon: BarChart3 },
-            { value: "10,000+", label: "Happy Professionals", icon: Users },
-            { value: "24/7", label: "Always Active", icon: Clock },
-            { value: "99.9%", label: "Reliability", icon: Award }
-          ].map((stat, index) => {
-            const Icon = stat.icon;
-            const isVisible = visibleFeatures.length > 0;
-            
-            return (
-              <div 
-                key={index}
-                className={`transition-all duration-700 ${
-                  isVisible ? 'animate-scale-in' : 'opacity-0 scale-75'
-                }`}
-                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-              >
-                <div className="glass-effect p-6 rounded-2xl hover-lift">
-                  <Icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <div className="text-3xl font-bold gradient-text mb-1">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-8"
+        >
+          {stats.map((stat, i) => (
+            <div key={i} className="text-center">
+              <div className="text-4xl md:text-5xl font-black tracking-tighter gradient-gold mb-1">{stat.value}</div>
+              <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
