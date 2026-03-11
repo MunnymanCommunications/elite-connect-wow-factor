@@ -25,7 +25,7 @@ const features = [
   {
     icon: RefreshCw,
     title: 'Real-Time Updates',
-    description: 'Edit your info 24/7. Changes sync instantly to all cards you've ever shared.',
+    description: "Edit your info 24/7. Changes sync instantly to all cards you've ever shared.",
   },
   {
     icon: Shield,
