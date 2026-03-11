@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Star, Zap, Shield, Users } from 'lucide-react';
 
 interface HeroSectionProps {
   onLearnMore: () => void;
@@ -8,100 +8,119 @@ interface HeroSectionProps {
 }
 
 export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-background">
-        <div className="absolute inset-0" style={{ background: 'var(--gradient-hero)' }} />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
-      </div>
+      {/* Mesh Gradient Background */}
+      <div className="absolute inset-0 mesh-section" />
+      
+      {/* Floating Orbs */}
+      <div className="absolute top-1/4 left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-amber-100/30 to-transparent blur-3xl animate-float" />
+      <div className="absolute bottom-1/4 right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-blue-100/20 to-transparent blur-3xl animate-float" style={{ animationDelay: '3s' }} />
 
-      <div className="relative z-10 container mx-auto px-6 text-center">
-        {/* Stats Bar */}
-        <div className={`mb-8 inline-flex items-center gap-6 glass-effect rounded-full px-6 py-3 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <div className="flex items-center gap-2">
-            <Star className="w-4 h-4 text-accent" />
-            <span className="text-sm text-muted-foreground">Used by 10,000+ professionals</span>
-          </div>
-          <div className="w-px h-4 bg-border" />
-          <div className="flex items-center gap-2">
-            <Zap className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">99.9% success rate</span>
-          </div>
-        </div>
+      <div className="relative z-10 container mx-auto px-6 text-center pt-20">
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <span className="inline-flex items-center gap-2 liquid-glass rounded-full px-5 py-2 text-xs font-medium tracking-widest uppercase text-muted-foreground">
+            <span className="w-2 h-2 rounded-full gradient-gold-bg animate-pulse-soft" />
+            Trusted by 10,000+ Professionals
+          </span>
+        </motion.div>
 
-        {/* Main Headline */}
-        <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
-          <span className="gradient-text">Elite Contact Cards</span>
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
+        >
+          <span className="kinetic-word">Word</span>{' '}
+          <span className="kinetic-word">of</span>{' '}
+          <span className="kinetic-word">Mouth</span>
           <br />
-          <span className="text-foreground">Change How You</span>
+          <span className="kinetic-word text-muted-foreground font-light text-4xl sm:text-5xl md:text-7xl">+</span>
           <br />
-          <span className="text-accent">Connect</span>
-        </h1>
+          <span className="kinetic-word font-serif italic gradient-gold">Referrals</span>{' '}
+          <span className="kinetic-word">=</span>{' '}
+          <span className="kinetic-word">Success</span>
+        </motion.h1>
 
         {/* Subheadline */}
-        <p className={`text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.4s' }}>
-          Professional NFC contact cards that foster word-of-mouth referrals with intelligent keyword search. 
-          <span className="text-accent font-semibold"> Never lose a connection again.</span>
-        </p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light"
+        >
+          Professional NFC contact cards with{' '}
+          <span className="text-foreground font-medium">intelligent keyword search</span>.
+          Your clients find you even when they forget your name.
+        </motion.p>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.45 }}
+          className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-16"
+        >
+          <Button
+            onClick={onGetStarted}
+            size="lg"
+            className="rounded-full px-10 py-6 text-base font-semibold bg-foreground text-background hover:bg-foreground/90 btn-ripple group"
+          >
+            Get Your Elite Card
+            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+          <Button
+            onClick={onLearnMore}
+            variant="outline"
+            size="lg"
+            className="rounded-full px-10 py-6 text-base font-semibold border-border hover:bg-secondary group"
+          >
+            <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+            Watch Demo
+          </Button>
+        </motion.div>
 
         {/* Social Proof */}
-        <div className={`flex items-center justify-center gap-2 mb-10 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.6s' }}>
-          <div className="flex -space-x-2">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-accent border-2 border-background flex items-center justify-center">
-                <Users className="w-4 h-4 text-background" />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className="flex items-center justify-center gap-8 text-sm text-muted-foreground"
+        >
+          <div className="flex -space-x-3">
+            {[1,2,3,4,5].map((i) => (
+              <div key={i} className="w-10 h-10 rounded-full gradient-gold-bg border-2 border-background flex items-center justify-center text-xs font-bold text-primary-foreground">
+                {String.fromCharCode(64 + i)}
               </div>
             ))}
           </div>
-          <span className="text-sm text-muted-foreground ml-3">Join thousands of professionals already connecting smarter</span>
-        </div>
+          <span className="font-light">
+            Join thousands connecting <span className="font-medium text-foreground">smarter</span>
+          </span>
+        </motion.div>
 
-        {/* CTA Buttons */}
-        <div className={`flex flex-col sm:flex-row gap-4 items-center justify-center mb-12 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
-          <Button 
-            onClick={onGetStarted}
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold rounded-full hover-glow group"
-          >
-            Get Your Elite Card
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Button>
-          
-          <Button 
-            onClick={onLearnMore}
-            variant="outline" 
-            size="lg"
-            className="border-primary/50 text-primary hover:bg-primary/10 px-8 py-4 text-lg rounded-full hover-lift group"
-          >
-            <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
-            Watch Demo
-          </Button>
-        </div>
-
-        {/* Trust Indicators */}
-        <div className={`flex flex-wrap items-center justify-center gap-8 opacity-60 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '1s' }}>
-          <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-accent" />
-            <span className="text-sm">Bank-Level Security</span>
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-1">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-muted-foreground"
+            />
           </div>
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-primary" />
-            <span className="text-sm">Instant Setup</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Star className="w-5 h-5 text-accent" />
-            <span className="text-sm">Premium Quality</span>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

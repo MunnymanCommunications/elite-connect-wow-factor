@@ -1,63 +1,51 @@
-import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Check, 
-  Star, 
-  Crown, 
-  Zap, 
-  ArrowRight,
-  BarChart3,
-  MessageSquare,
-  Calendar,
-  Users
-} from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 
 const plans = [
   {
-    name: "Elite Base",
+    name: 'Elite Base',
     price: 150,
-    period: "annually",
-    badge: "Popular",
-    badgeColor: "primary",
-    description: "Perfect for professionals who want to revolutionize their networking",
+    period: 'year',
+    badge: 'Popular',
+    description: 'Everything you need to revolutionize your networking.',
     features: [
-      "Unlimited NFC business card shares",
-      "New Elite Card every 6 months",
-      "Free replacements if lost/stolen",
-      "Professional contact design",
-      "24/7 card information editing",
-      "Unlimited keyword search optimization",
-      "Save contact as phone app",
-      "Unlimited website & social links",
-      "Re-purpose cards for team members"
+      'Unlimited NFC business card shares',
+      'New Elite Card every 6 months',
+      'Free replacements if lost or stolen',
+      'Professional contact design',
+      '24/7 card information editing',
+      'Unlimited keyword search optimization',
+      'Save contact as phone app',
+      'Unlimited website & social links',
+      'Re-purpose cards for team members',
     ],
-    cta: "Start Networking Elite",
-    popular: true
+    cta: 'Start Networking Elite',
+    highlighted: false,
   },
   {
-    name: "Elite Pro",
+    name: 'Elite Pro',
     price: 250,
-    period: "annually", 
-    badge: "Best Value",
-    badgeColor: "accent",
-    description: "For professionals serious about maximizing every connection",
+    period: 'year',
+    badge: 'Best Value',
+    description: 'For professionals serious about maximizing every connection.',
     features: [
-      "Everything in Elite Base",
-      "Custom contact capture forms",
-      "Automatic website redirects",
-      "Simple CRM system",
-      "Dynamic text message templates",
-      "Automatic email with calendar links",
-      "Advanced analytics dashboard",
-      "Monthly networking goals",
-      "Lead tracking & insights",
-      "Premium support"
+      'Everything in Elite Base',
+      'Custom contact capture forms',
+      'Automatic website redirects',
+      'Simple CRM system',
+      'Dynamic text message templates',
+      'Auto email with calendar links',
+      'Analytics dashboard',
+      'Monthly networking goals',
+      'Lead tracking & insights',
     ],
-    cta: "Go Pro Today",
-    popular: false
-  }
+    cta: 'Go Pro Today',
+    highlighted: true,
+  },
 ];
 
 interface PricingSectionProps {
@@ -65,172 +53,95 @@ interface PricingSectionProps {
 }
 
 export const PricingSection = ({ onSelectPlan }: PricingSectionProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isRevealed } = useScrollReveal();
 
   return (
-    <section ref={sectionRef} className="py-24 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <div className={`text-center mb-16 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
-          <Badge className="mb-4 bg-accent/20 text-accent border-accent/30">Investment Plans</Badge>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="text-foreground">Choose Your</span>
+    <section ref={ref} className="py-32 mesh-section">
+      <div className="container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20 max-w-3xl mx-auto"
+        >
+          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium">
+            Investment Plans
+          </Badge>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+            Choose Your
             <br />
-            <span className="gradient-text">Elite Experience</span>
+            <span className="font-serif italic gradient-gold">Elite Experience</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Join thousands of professionals who've transformed their networking game
+          <p className="text-lg text-muted-foreground font-light">
+            More cost-effective than traditional paper cards. Infinitely more powerful.
           </p>
-        </div>
+        </motion.div>
 
-        {/* ROI Banner */}
-        <div className={`text-center mb-12 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
-          <div className="inline-flex items-center gap-3 glass-effect rounded-full px-6 py-3">
-            <BarChart3 className="w-5 h-5 text-accent" />
-            <span className="text-foreground font-medium">Average ROI: 500% in first year</span>
-            <Star className="w-4 h-4 text-accent" />
-          </div>
-        </div>
-
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {plans.map((plan, index) => (
-            <Card 
-              key={index}
-              className={`relative overflow-hidden transition-all duration-500 hover-glow cursor-pointer ${
-                plan.popular ? 'neon-border' : 'glass-effect'
-              } ${isVisible ? 'animate-scale-in' : 'opacity-0 scale-75'} ${
-                hoveredPlan === index ? 'scale-105' : ''
-              }`}
-              style={{ animationDelay: `${0.3 + index * 0.2}s` }}
-              onMouseEnter={() => setHoveredPlan(index)}
-              onMouseLeave={() => setHoveredPlan(null)}
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 + index * 0.15 }}
             >
-              {plan.popular && (
-                <div className="absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-primary to-transparent" />
-              )}
-              
-              <CardHeader className="text-center pb-4">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-                  <Badge className={`${
-                    plan.badgeColor === 'primary' 
-                      ? 'bg-primary/20 text-primary border-primary/30' 
-                      : 'bg-accent/20 text-accent border-accent/30'
-                  }`}>
-                    {plan.badge}
-                  </Badge>
-                </div>
-                
-                <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <span className="text-4xl font-bold gradient-text">${plan.price}</span>
-                  <span className="text-muted-foreground">/{plan.period}</span>
-                </div>
-                
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {plan.description}
-                </p>
-              </CardHeader>
-
-              <CardContent className="space-y-6">
-                {/* Features List */}
-                <div className="space-y-3">
-                  {plan.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-start gap-3">
-                      <div className={`p-1 rounded-full ${
-                        plan.badgeColor === 'primary' ? 'bg-primary/20' : 'bg-accent/20'
-                      } mt-0.5`}>
-                        <Check className={`w-3 h-3 ${
-                          plan.badgeColor === 'primary' ? 'text-primary' : 'text-accent'
-                        }`} />
-                      </div>
-                      <span className="text-sm text-muted-foreground leading-relaxed">
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA Button */}
-                <Button 
-                  onClick={() => onSelectPlan(plan.name)}
-                  className={`w-full py-4 text-lg font-semibold rounded-xl group transition-all duration-300 ${
-                    plan.popular 
-                      ? 'bg-primary hover:bg-primary/90 text-primary-foreground' 
-                      : 'bg-accent hover:bg-accent/90 text-accent-foreground'
-                  }`}
-                >
-                  {plan.cta}
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-
-                {/* Additional Benefits for Pro */}
-                {index === 1 && (
-                  <div className="pt-4 border-t border-border">
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div className="space-y-1">
-                        <MessageSquare className="w-5 h-5 text-accent mx-auto" />
-                        <div className="text-xs text-muted-foreground">CRM</div>
-                      </div>
-                      <div className="space-y-1">
-                        <Calendar className="w-5 h-5 text-accent mx-auto" />
-                        <div className="text-xs text-muted-foreground">Auto Calendar</div>
-                      </div>
-                      <div className="space-y-1">
-                        <BarChart3 className="w-5 h-5 text-accent mx-auto" />
-                        <div className="text-xs text-muted-foreground">Analytics</div>
-                      </div>
-                    </div>
-                  </div>
+              <Card className={`relative overflow-hidden h-full hover-lift ${
+                plan.highlighted
+                  ? 'bg-foreground text-primary-foreground border-0'
+                  : 'liquid-glass border-0'
+              }`}>
+                {plan.highlighted && (
+                  <div className="absolute top-0 left-0 right-0 h-1 gradient-gold-bg" />
                 )}
-              </CardContent>
-            </Card>
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-3 mb-4">
+                    <h3 className="text-xl font-bold">{plan.name}</h3>
+                    <Badge className={plan.highlighted ? 'gradient-gold-bg text-foreground border-0' : 'bg-secondary text-foreground border-0'}>
+                      {plan.badge}
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <span className={`text-5xl font-black tracking-tight ${plan.highlighted ? '' : 'gradient-gold'}`}>
+                      ${plan.price}
+                    </span>
+                    <span className={`text-sm ${plan.highlighted ? 'text-primary-foreground/60' : 'text-muted-foreground'}`}>
+                      /{plan.period}
+                    </span>
+                  </div>
+                  <p className={`text-sm ${plan.highlighted ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+                    {plan.description}
+                  </p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-3">
+                    {plan.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                          plan.highlighted ? 'bg-primary-foreground/20' : 'bg-secondary'
+                        }`}>
+                          <Check className="w-3 h-3" />
+                        </div>
+                        <span className={`text-sm ${plan.highlighted ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button
+                    onClick={() => onSelectPlan(plan.name)}
+                    className={`w-full rounded-xl py-5 text-base font-semibold group ${
+                      plan.highlighted
+                        ? 'bg-primary-foreground text-foreground hover:bg-primary-foreground/90'
+                        : 'bg-foreground text-background hover:bg-foreground/90'
+                    }`}
+                  >
+                    {plan.cta}
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
-
-        {/* Trust Indicators */}
-        <div className={`text-center ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.8s' }}>
-          <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Crown className="w-4 h-4 text-accent" />
-              <span>30-day money-back guarantee</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-primary" />
-              <span>Instant activation</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-accent" />
-              <span>Join 10,000+ professionals</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
