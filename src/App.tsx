@@ -5,6 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import EliteContactCard from "./pages/EliteContactCard";
+import EliteReviewPlacards from "./pages/EliteReviewPlacards";
+import VideosPage from "./pages/Videos";
+import AISolutions from "./pages/AISolutions";
+import FAQ from "./pages/FAQ";
+import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard } from "./pages/ProductPages";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +22,18 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/elite-contact-card" element={<EliteContactCard />} />
+          <Route path="/elite-review-placards" element={<EliteReviewPlacards />} />
+          <Route path="/videos" element={<VideosPage />} />
+          <Route path="/ai-solutions" element={<AISolutions />} />
+          <Route path="/frequently-asked-questions" element={<FAQ />} />
+          <Route path="/elite-network" element={<EliteNetwork />} />
+          <Route path="/venmo-card" element={<VenmoCard />} />
+          <Route path="/bitcoin-elite-wallet-card" element={<BitcoinWalletCard />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/nicholasmunn" element={<About />} />
+          <Route path="/on-boarding" element={<OnBoarding />} />
+          <Route path="/digital-business-card" element={<DigitalBusinessCard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
