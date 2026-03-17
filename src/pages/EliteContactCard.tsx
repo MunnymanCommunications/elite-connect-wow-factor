@@ -341,20 +341,77 @@ const EliteContactCard = () => {
         </div>
       </section>
 
-      {/* Card Designs */}
+      {/* Card Materials & Designs */}
       <section className="py-24">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-12 text-center">
-            Card <span className="font-serif italic gradient-gold">Designs</span>
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 text-center">
+            Card <span className="font-serif italic gradient-gold">Materials</span>
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {cardOptions.map((c, i) => (
-              <div key={i} className="hover-lift">
-                <div className={`aspect-[1.6/1] rounded-2xl bg-gradient-to-br ${c.gradient} mb-4 shadow-lg`} />
-                <h3 className="font-semibold text-sm">{c.name}</h3>
-                <p className="text-xs text-muted-foreground">{c.desc}</p>
+          <p className="text-lg text-muted-foreground text-center mb-16 max-w-2xl mx-auto font-light">
+            Choose your material — every card includes NFC tap-to-share technology and all Elite Card features.
+          </p>
+
+          {/* PVC Cards */}
+          <div className="max-w-5xl mx-auto mb-20">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">PVC Cards</h3>
+                <p className="text-sm text-muted-foreground">Premium matte finish with printed logo</p>
               </div>
-            ))}
+              <Badge variant="outline" className="rounded-full px-4 py-1 text-xs tracking-widest uppercase">Included in Plan</Badge>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {pvcOptions.map((c, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 * i }} className="hover-lift">
+                  <div className={`aspect-[1.6/1] rounded-2xl bg-gradient-to-br ${c.gradient} ${c.accent} mb-3 shadow-lg`} />
+                  <h4 className="font-semibold text-sm">{c.name}</h4>
+                  <p className="text-xs text-muted-foreground">{c.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground mt-4 italic">
+              Note: Full color printing is available on white cards only. Black cards support reflective gold, reflective silver, or monochrome finishes.
+            </p>
+          </div>
+
+          {/* Wooden Cards */}
+          <div className="max-w-5xl mx-auto mb-20">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Engraved Wooden Cards</h3>
+                <p className="text-sm text-muted-foreground">Laser-engraved with embedded NFC chip</p>
+              </div>
+              <Badge className="rounded-full px-4 py-1 text-xs tracking-widest uppercase bg-foreground text-background">$299.95/yr</Badge>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {woodOptions.map((c, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 * i }} className="hover-lift">
+                  <div className={`aspect-[1.6/1] rounded-2xl bg-gradient-to-br ${c.gradient} mb-3 shadow-lg ring-1 ring-foreground/10`} />
+                  <h4 className="font-semibold text-sm">{c.name}</h4>
+                  <p className="text-xs text-muted-foreground">{c.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Metal Cards */}
+          <div className="max-w-5xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">Engraved Metal Cards</h3>
+                <p className="text-sm text-muted-foreground">Laser-engraved with embedded NFC chip</p>
+              </div>
+              <Badge className="rounded-full px-4 py-1 text-xs tracking-widest uppercase bg-foreground text-background">$349.95/yr</Badge>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {metalOptions.map((c, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08 * i }} className="hover-lift">
+                  <div className={`aspect-[1.6/1] rounded-2xl bg-gradient-to-br ${c.gradient} mb-3 shadow-xl ring-1 ring-foreground/10`} />
+                  <h4 className="font-semibold text-sm">{c.name}</h4>
+                  <p className="text-xs text-muted-foreground">{c.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
