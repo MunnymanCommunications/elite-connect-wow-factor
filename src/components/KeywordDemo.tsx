@@ -21,7 +21,7 @@ export const KeywordDemo = () => {
   useEffect(() => {
     if (!isRevealed) return;
     
-    const term = searchTerms[currentTerm];
+    const term = searchTerms[currentTerm].keyword;
     if (isTyping) {
       if (displayText.length < term.length) {
         const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 100);
