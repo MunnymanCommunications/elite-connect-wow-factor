@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Search } from 'lucide-react';
+import { ArrowRight, Play, Search, Home, Shield, Flower2, Ruler, Stethoscope, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 
@@ -9,12 +9,12 @@ interface HeroSectionProps {
 }
 
 const searchTerms = [
-  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
-  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor' },
-  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist' },
-  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist' },
-  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist' },
-  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber' },
+  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional', icon: Home },
+  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor', icon: Shield },
+  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist', icon: Flower2 },
+  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist', icon: Ruler },
+  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist', icon: Stethoscope },
+  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber', icon: Wrench },
 ];
 
 export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
