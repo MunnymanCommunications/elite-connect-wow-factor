@@ -17,6 +17,9 @@ export const KeywordDemo = () => {
   const [currentTerm, setCurrentTerm] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
+  const [videoScale, setVideoScale] = useState(2.2);
+  const [videoOffsetY, setVideoOffsetY] = useState(0);
+  const [showControls, setShowControls] = useState(true);
 
   useEffect(() => {
     if (!isRevealed) return;
@@ -56,6 +59,83 @@ export const KeywordDemo = () => {
               <br />
               <span className="font-serif italic gradient-iris">Not Anymore.</span>
             </h2>
+
+            {/* Embedded YouTube Short — cropped */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isRevealed ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="mb-8"
+            >
+              <div 
+                className="relative rounded-2xl overflow-hidden liquid-glass"
+                style={{ 
+                  width: '100%',
+                  maxWidth: '480px',
+                  aspectRatio: '16/9',
+                }}
+              >
+                <div 
+                  className="absolute inset-0 flex items-center justify-center overflow-hidden"
+                >
+                  <iframe
+                    src="https://www.youtube.com/embed/g4tVfLdCQxU?autoplay=0&loop=1&controls=1&modestbranding=1&playsinline=1"
+                    className="border-0"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      transform: `scale(${videoScale}) translateY(${videoOffsetY}%)`,
+                      transformOrigin: 'center center',
+                    }}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    title="Elite Cards Demo"
+                  />
+                </div>
+              </div>
+
+              {/* Crop Controls */}
+              {showControls && (
+                <div className="mt-3 p-3 liquid-glass rounded-xl space-y-2 max-w-[480px]">
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>Video Crop Controls</span>
+                    <button 
+                      onClick={() => setShowControls(false)}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Hide
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="text-xs text-muted-foreground w-12">Zoom</label>
+                    <input
+                      type="range"
+                      min="1"
+                      max="4"
+                      step="0.1"
+                      value={videoScale}
+                      onChange={(e) => setVideoScale(parseFloat(e.target.value))}
+                      className="flex-1 accent-foreground"
+                    />
+                    <span className="text-xs text-muted-foreground w-8">{videoScale.toFixed(1)}x</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="text-xs text-muted-foreground w-12">Offset</label>
+                    <input
+                      type="range"
+                      min="-30"
+                      max="30"
+                      step="1"
+                      value={videoOffsetY}
+                      onChange={(e) => setVideoOffsetY(parseFloat(e.target.value))}
+                      className="flex-1 accent-foreground"
+                    />
+                    <span className="text-xs text-muted-foreground w-8">{videoOffsetY}%</span>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
             <p className="text-lg text-muted-foreground font-light leading-relaxed mb-8">
               Our exclusive <span className="text-foreground font-medium">Keyword Search</span> technology 
               lets clients find you in their phone contacts by searching for what you do — 
