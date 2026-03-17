@@ -137,8 +137,8 @@ export const VideoFullscreen = ({ videos, initialIndex, isOpen, onClose, onIndex
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-lg mx-auto"
-                style={{ aspectRatio: '9/16', maxHeight: '85vh' }}
+                className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto px-4"
+                style={{ aspectRatio: '9/16', maxHeight: 'min(85vh, calc(100vh - 80px))' }}
               >
                 <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                   <iframe
