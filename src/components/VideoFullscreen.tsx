@@ -123,7 +123,7 @@ export const VideoFullscreen = ({ videos, initialIndex, isOpen, onClose, onIndex
             animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             transition={{ duration: 0.5 }}
-            className="absolute inset-0 bg-foreground/80"
+            className="absolute inset-0 bg-white/70"
           />
 
           {/* Video area */}
@@ -137,12 +137,12 @@ export const VideoFullscreen = ({ videos, initialIndex, isOpen, onClose, onIndex
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-lg mx-auto"
-                style={{ aspectRatio: '9/16', maxHeight: '85vh' }}
+                className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto px-4"
+                style={{ aspectRatio: '9/16', maxHeight: 'min(85vh, calc(100vh - 80px))' }}
               >
                 <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                   <iframe
-                    src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=1&modestbranding=1&playsinline=1&rel=0`}
+                    src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=0&loop=1&playlist=${video.id}&controls=1&modestbranding=1&playsinline=1&rel=0`}
                     className="w-full h-full border-0"
                     allow="autoplay; encrypted-media"
                     allowFullScreen
