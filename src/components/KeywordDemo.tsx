@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Search, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { VideoCarousel } from './VideoCarousel';
 
 const searchTerms = [
   { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
