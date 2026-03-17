@@ -22,11 +22,24 @@ const features = [
   { icon: Globe, title: 'Unlimited Links', desc: 'Website, social media, portfolios — all your important links in one place.' },
 ];
 
-const cardOptions = [
-  { name: 'Midnight Edition', desc: 'Matte black + monochrome black ink', gradient: 'from-gray-900 to-black' },
-  { name: 'Reflective Gold', desc: 'Matte white or black + reflective gold', gradient: 'from-amber-600 to-amber-400' },
-  { name: 'Classic White', desc: 'Matte white + full color logo', gradient: 'from-gray-100 to-white' },
-  { name: 'Custom Photo', desc: 'Edge-to-edge custom imagery', gradient: 'from-blue-400 to-pink-400' },
+const pvcOptions = [
+  { name: 'Reflective Gold on Black', desc: 'Matte black card with reflective gold logo', gradient: 'from-gray-900 to-black', accent: 'border-2 border-amber-500/40' },
+  { name: 'Reflective Gold on White', desc: 'Matte white card with reflective gold logo', gradient: 'from-gray-100 to-white', accent: 'border-2 border-amber-500/40' },
+  { name: 'Reflective Silver on Black', desc: 'Matte black card with reflective silver logo', gradient: 'from-gray-900 to-black', accent: 'border-2 border-gray-400/40' },
+  { name: 'Reflective Silver on White', desc: 'Matte white card with reflective silver logo', gradient: 'from-gray-100 to-white', accent: 'border-2 border-gray-400/40' },
+  { name: 'Monochrome Black', desc: 'Matte black card with monochrome black ink', gradient: 'from-gray-900 to-black', accent: '' },
+  { name: 'Monochrome White', desc: 'Matte white card with monochrome white ink', gradient: 'from-gray-100 to-white', accent: '' },
+  { name: 'Full Color on White', desc: 'Matte white card with full color logo', gradient: 'from-gray-50 to-white', accent: 'border-2 border-blue-400/30' },
+];
+
+const woodOptions = [
+  { name: 'Engraved Walnut', desc: 'Premium walnut wood with laser-engraved logo & embedded NFC chip', gradient: 'from-amber-900 to-amber-800' },
+  { name: 'Engraved Maple', desc: 'Light maple wood with laser-engraved logo & embedded NFC chip', gradient: 'from-amber-200 to-amber-100' },
+];
+
+const metalOptions = [
+  { name: 'Gold Metal', desc: 'Gold-finish metal card with laser-engraved logo & embedded NFC chip', gradient: 'from-amber-500 to-amber-300' },
+  { name: 'Silver Metal', desc: 'Silver-finish metal card with laser-engraved logo & embedded NFC chip', gradient: 'from-gray-300 to-gray-100' },
 ];
 
 const standardFeatures = [
