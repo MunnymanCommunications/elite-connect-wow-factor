@@ -22,14 +22,14 @@ const footerLinks = {
 };
 
 export const Footer = () => (
-  <footer className="border-t border-border py-20">
+  <footer className="border-t border-border/50 py-20">
     <div className="container mx-auto px-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl gradient-gold-bg flex items-center justify-center">
-              <span className="text-sm font-bold text-primary-foreground">EC</span>
+            <div className="w-9 h-9 rounded-xl bg-foreground flex items-center justify-center">
+              <span className="text-sm font-bold text-background">EC</span>
             </div>
             <span className="text-lg font-bold tracking-tight">Elite Card Pro</span>
           </div>

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Elite Card Pro — Apple Pro Luxury Design System 2026 */
+/* Elite Card Pro — iOS 26 Liquid Glass Design System */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
 
@@ -15,14 +15,14 @@
     --primary: 0 0% 8%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 0 0% 96%;
+    --secondary: 220 14% 96%;
     --secondary-foreground: 0 0% 8%;
     
-    --accent: 220 14% 96%;
+    --accent: 220 20% 96%;
     --accent-foreground: 0 0% 8%;
     
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
     
     --card: 0 0% 100%;
     --card-foreground: 0 0% 8%;
@@ -33,25 +33,27 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 0 0% 92%;
-    --input: 0 0% 92%;
-    --ring: 0 0% 8%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 70% 55%;
     
-    /* Brand Accent — Refined Gold */
-    --gold: 43 74% 49%;
-    --gold-light: 43 74% 65%;
+    /* Iridescent Accent Tokens */
+    --iris-blue: 220 70% 55%;
+    --iris-violet: 260 60% 60%;
+    --iris-pink: 330 60% 65%;
+    --iris-teal: 180 50% 50%;
     
     /* Liquid Glass Tokens */
-    --glass-bg: rgba(255, 255, 255, 0.6);
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-    --glass-shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.1);
-    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+    --glass-shadow-elevated: 0 20px 60px rgba(0, 0, 0, 0.08);
+    --glass-inset: inset 0 1px 0 rgba(255, 255, 255, 0.8);
     
-    /* Mesh Gradient Sections */
-    --mesh-1: radial-gradient(ellipse at 20% 50%, hsla(220, 60%, 96%, 0.6) 0%, transparent 60%);
-    --mesh-2: radial-gradient(ellipse at 80% 20%, hsla(43, 60%, 96%, 0.4) 0%, transparent 50%);
-    --mesh-3: radial-gradient(ellipse at 50% 80%, hsla(200, 40%, 96%, 0.5) 0%, transparent 60%);
+    /* Mesh Gradient Sections — Subtle Iridescent */
+    --mesh-1: radial-gradient(ellipse at 20% 50%, hsla(220, 70%, 96%, 0.7) 0%, transparent 60%);
+    --mesh-2: radial-gradient(ellipse at 80% 20%, hsla(260, 50%, 96%, 0.5) 0%, transparent 50%);
+    --mesh-3: radial-gradient(ellipse at 50% 80%, hsla(180, 40%, 96%, 0.5) 0%, transparent 60%);
     
     --radius: 1rem;
   }
@@ -85,43 +87,51 @@
 }
 
 @layer components {
-  /* Liquid Glass Effect — iOS 26 Inspired */
+  /* Liquid Glass Effect — iOS 26 */
   .liquid-glass {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.65),
+      rgba(255, 255, 255, 0.35)
+    );
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 8px 32px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
       inset 0 -1px 0 rgba(0, 0, 0, 0.02);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .liquid-glass:hover {
     box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 16px 48px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
       inset 0 -1px 0 rgba(0, 0, 0, 0.03);
     transform: translateY(-2px);
   }
 
   .liquid-glass-nav {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.65));
-    backdrop-filter: blur(30px) saturate(200%);
-    -webkit-backdrop-filter: blur(30px) saturate(200%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.04);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.82),
+      rgba(255, 255, 255, 0.6)
+    );
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.03);
   }
 
   .liquid-glass-dark {
     background: linear-gradient(135deg, rgba(20, 20, 20, 0.85), rgba(30, 30, 30, 0.6));
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
   /* Mesh Gradient Sections */
@@ -133,24 +143,61 @@
       hsl(var(--background));
   }
 
-  /* Gold Accent Gradient */
-  .gradient-gold {
-    background: linear-gradient(135deg, hsl(43 74% 49%), hsl(43 74% 65%));
+  /* Iridescent Text Gradient — replaces gold */
+  .gradient-iris {
+    background: linear-gradient(135deg, hsl(220 70% 55%), hsl(260 60% 60%), hsl(330 60% 65%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-gold-bg {
-    background: linear-gradient(135deg, hsl(43 74% 49%), hsl(43 74% 65%));
+  .gradient-iris-bg {
+    background: linear-gradient(135deg, hsl(220 70% 55%), hsl(260 60% 55%), hsl(330 55% 60%));
   }
 
   /* Subtle Text Gradient */
   .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(0 0% 35%));
+    background: linear-gradient(135deg, hsl(var(--foreground)), hsl(220 9% 40%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  /* Section Frost Edges — Elegant Focus Direction */
+  .section-frost {
+    position: relative;
+  }
+  .section-frost::before,
+  .section-frost::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 80px;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .section-frost::before {
+    top: 0;
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--background)) 0%,
+      hsla(var(--background) / 0.8) 30%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to bottom, black, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+  }
+  .section-frost::after {
+    bottom: 0;
+    background: linear-gradient(
+      to top,
+      hsl(var(--background)) 0%,
+      hsla(var(--background) / 0.8) 30%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to top, black, transparent);
+    -webkit-mask-image: linear-gradient(to top, black, transparent);
   }
 
   /* Scroll Reveal Animations */
@@ -180,7 +227,7 @@
   }
   .hover-lift:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
   }
 
   /* Button Ripple */
@@ -216,14 +263,14 @@
   }
 
   /* Custom Scrollbar — Minimal */
-  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.2);
+    background: hsl(var(--muted-foreground) / 0.15);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.4);
+    background: hsl(var(--muted-foreground) / 0.3);
   }
 }
 

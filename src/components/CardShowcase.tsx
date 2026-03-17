@@ -40,7 +40,7 @@ export const CardShowcase = () => {
   const { ref, isRevealed } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-32">
+    <section ref={ref} className="py-32 section-frost">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -48,13 +48,13 @@ export const CardShowcase = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20 max-w-3xl mx-auto"
         >
-          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium">
+          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium border-border/50">
             Card Designs
           </Badge>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
             Choose Your
             <br />
-            <span className="font-serif italic gradient-gold">Signature Look</span>
+            <span className="font-serif italic gradient-iris">Signature Look</span>
           </h2>
           <p className="text-lg text-muted-foreground font-light">
             Premium materials. Unforgettable first impressions.
@@ -73,7 +73,7 @@ export const CardShowcase = () => {
               <div className="relative hover-lift">
                 {card.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="gradient-gold-bg text-foreground border-0 text-xs">Most Popular</Badge>
+                    <Badge className="bg-foreground text-background border-0 text-xs">Most Popular</Badge>
                   </div>
                 )}
                 {/* Card Preview */}
@@ -98,7 +98,7 @@ export const CardShowcase = () => {
           transition={{ delay: 0.6 }}
           className="text-center"
         >
-          <Button asChild variant="outline" className="rounded-full px-8 group">
+          <Button asChild variant="outline" className="rounded-full px-8 group border-border/50">
             <Link to="/elite-contact-card">
               Explore All Options
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
