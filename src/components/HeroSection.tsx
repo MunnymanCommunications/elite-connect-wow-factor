@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Play, Search } from 'lucide-react';
+import { ArrowRight, Play, Search, Home, Shield, Flower2, Ruler, Stethoscope, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 
@@ -9,12 +9,12 @@ interface HeroSectionProps {
 }
 
 const searchTerms = [
-  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
-  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor' },
-  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist' },
-  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist' },
-  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist' },
-  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber' },
+  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional', icon: Home },
+  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor', icon: Shield },
+  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist', icon: Flower2 },
+  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist', icon: Ruler },
+  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist', icon: Stethoscope },
+  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber', icon: Wrench },
 ];
 
 export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
@@ -89,31 +89,42 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           transition={{ duration: 0.8, delay: 0.25 }}
           className="flex justify-center mb-8"
         >
-          <div className="w-72 liquid-glass rounded-2xl p-1">
-            <div className="bg-background/80 rounded-xl overflow-hidden">
-              <div className="px-4 py-2.5">
-                <div className="flex items-center gap-3 bg-secondary rounded-lg px-3 py-2">
-                  <Search className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+          <div className="w-72 liquid-glass rounded-[2.5rem] p-3 shadow-2xl">
+            <div className="bg-background rounded-[2rem] overflow-hidden">
+              {/* Phone Status Bar */}
+              <div className="px-6 pt-4 pb-2 flex items-center justify-between">
+                <span className="text-xs font-medium">9:41</span>
+                <div className="flex gap-1">
+                  <div className="w-4 h-2 bg-foreground/20 rounded-sm" />
+                  <div className="w-4 h-2 bg-foreground/20 rounded-sm" />
+                  <div className="w-6 h-2 bg-foreground rounded-sm" />
+                </div>
+              </div>
+              {/* Search Bar */}
+              <div className="px-4 py-3">
+                <div className="flex items-center gap-3 bg-secondary rounded-xl px-4 py-3">
+                  <Search className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   <span className="text-foreground font-medium text-sm">
                     {displayText}
                     <span className="animate-pulse-soft text-muted-foreground">|</span>
                   </span>
                 </div>
               </div>
-              <motion.div
-                animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 8 }}
-                className="px-4 pb-3"
-              >
-                <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary/50">
-                  <div className="w-8 h-8 rounded-full gradient-iris-bg flex items-center justify-center text-[10px] font-bold text-primary-foreground flex-shrink-0">
-                    {searchTerms[currentTerm].name.split(' ').map(n => n[0]).join('')}
+              {/* Results */}
+              <div className="px-4 pb-6 space-y-3">
+                <motion.div
+                  animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 10 }}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50"
+                >
+                  <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-primary-foreground flex-shrink-0">
+                    {(() => { const Icon = searchTerms[currentTerm].icon; return <Icon className="w-5 h-5" />; })()}
                   </div>
                   <div className="text-left">
-                    <div className="text-xs font-semibold">{searchTerms[currentTerm].name}</div>
-                    <div className="text-[10px] text-muted-foreground">{searchTerms[currentTerm].title}</div>
+                    <div className="text-sm font-semibold">{searchTerms[currentTerm].name}</div>
+                    <div className="text-xs text-muted-foreground">{searchTerms[currentTerm].title}</div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
