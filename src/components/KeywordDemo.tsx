@@ -24,7 +24,7 @@ export const KeywordDemo = () => {
     const term = searchTerms[currentTerm].keyword;
     if (isTyping) {
       if (displayText.length < term.length) {
-        const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 100);
+        const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 120);
         return () => clearTimeout(timeout);
       } else {
         const timeout = setTimeout(() => setIsTyping(false), 1500);
