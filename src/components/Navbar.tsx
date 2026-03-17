@@ -35,8 +35,8 @@ export const Navbar = () => {
       }`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl gradient-gold-bg flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              <span className="text-sm font-bold text-primary-foreground">EC</span>
+            <div className="w-9 h-9 rounded-xl bg-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+              <span className="text-sm font-bold text-background">EC</span>
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground">
               Elite Card Pro

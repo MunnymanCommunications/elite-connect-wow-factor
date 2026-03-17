@@ -34,25 +34,17 @@ const Index = () => {
 
       <HeroSection onLearnMore={handleLearnMore} onGetStarted={handleGetStarted} />
 
-      <div className="section-divider" />
-
       <div id="features">
         <FeaturesSection />
       </div>
 
       <KeywordDemo />
 
-      <div className="section-divider" />
-
       <CardShowcase />
-
-      <div className="section-divider" />
 
       <div id="pricing">
         <PricingSection onSelectPlan={handleSelectPlan} />
       </div>
-
-      <div className="section-divider" />
 
       <div id="videos">
         <VideoSection />

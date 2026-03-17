@@ -56,7 +56,7 @@ export const PricingSection = ({ onSelectPlan }: PricingSectionProps) => {
   const { ref, isRevealed } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-32 mesh-section">
+    <section ref={ref} className="py-32 mesh-section section-frost">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -64,13 +64,13 @@ export const PricingSection = ({ onSelectPlan }: PricingSectionProps) => {
           transition={{ duration: 0.8 }}
           className="text-center mb-20 max-w-3xl mx-auto"
         >
-          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium">
+          <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase font-medium border-border/50">
             Investment Plans
           </Badge>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
             Choose Your
             <br />
-            <span className="font-serif italic gradient-gold">Elite Experience</span>
+            <span className="font-serif italic gradient-iris">Elite Experience</span>
           </h2>
           <p className="text-lg text-muted-foreground font-light">
             More cost-effective than traditional paper cards. Infinitely more powerful.
@@ -91,17 +91,17 @@ export const PricingSection = ({ onSelectPlan }: PricingSectionProps) => {
                   : 'liquid-glass border-0'
               }`}>
                 {plan.highlighted && (
-                  <div className="absolute top-0 left-0 right-0 h-1 gradient-gold-bg" />
+                  <div className="absolute top-0 left-0 right-0 h-1 gradient-iris-bg" />
                 )}
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-3 mb-4">
                     <h3 className="text-xl font-bold">{plan.name}</h3>
-                    <Badge className={plan.highlighted ? 'gradient-gold-bg text-foreground border-0' : 'bg-secondary text-foreground border-0'}>
+                    <Badge className={plan.highlighted ? 'gradient-iris-bg text-primary-foreground border-0' : 'bg-secondary text-foreground border-0'}>
                       {plan.badge}
                     </Badge>
                   </div>
                   <div className="flex items-baseline gap-1 mb-2">
-                    <span className={`text-5xl font-black tracking-tight ${plan.highlighted ? '' : 'gradient-gold'}`}>
+                    <span className={`text-5xl font-black tracking-tight ${plan.highlighted ? '' : 'gradient-iris'}`}>
                       ${plan.price}
                     </span>
                     <span className={`text-sm ${plan.highlighted ? 'text-primary-foreground/60' : 'text-muted-foreground'}`}>

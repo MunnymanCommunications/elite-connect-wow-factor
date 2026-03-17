@@ -8,7 +8,7 @@ export const VideoSection = () => {
   const { ref, isRevealed } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-32">
+    <section ref={ref} className="py-32 section-frost">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -19,7 +19,7 @@ export const VideoSection = () => {
           <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
             See Elite Cards
             <br />
-            <span className="font-serif italic gradient-gold">In Action</span>
+            <span className="font-serif italic gradient-iris">In Action</span>
           </h2>
           <p className="text-lg text-muted-foreground font-light mb-10">
             Watch real professionals demonstrate the power of Elite Contact Cards in our immersive video experience.
