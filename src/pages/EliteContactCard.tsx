@@ -59,6 +59,23 @@ const EliteContactCard = () => (
               </a>
             </Button>
           </div>
+
+          {/* Video */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl"
+            style={{ aspectRatio: '16/9' }}
+          >
+            <iframe
+              src="https://www.youtube.com/embed/i_6JVumKbrQ?autoplay=1&mute=1&loop=1&playlist=i_6JVumKbrQ&controls=1&modestbranding=1&playsinline=1&rel=0"
+              className="w-full h-full border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Elite Contact Card Overview"
+            />
+          </motion.div>
         </motion.div>
       </div>
     </section>
