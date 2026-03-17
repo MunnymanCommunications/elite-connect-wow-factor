@@ -9,13 +9,13 @@ interface HeroSectionProps {
 }
 
 const searchTerms = [
-  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional', icon: Home },
-  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor', icon: Shield },
-  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist', icon: Flower2 },
-  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist', icon: Ruler },
-  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist', icon: Stethoscope },
-  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber', icon: Wrench },
-];
+{ keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional', icon: Home },
+{ keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor', icon: Shield },
+{ keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist', icon: Flower2 },
+{ keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist', icon: Ruler },
+{ keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist', icon: Stethoscope },
+{ keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber', icon: Wrench }];
+
 
 export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
   const [currentTerm, setCurrentTerm] = useState(0);
@@ -56,8 +56,8 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
+          className="mb-8">
+          
           <span className="inline-flex items-center gap-2 liquid-glass rounded-full px-5 py-2 text-xs font-medium tracking-widest uppercase text-muted-foreground">
             <span className="w-2 h-2 rounded-full bg-ring animate-pulse-soft" />
             Trusted by 10,000+ Professionals
@@ -69,8 +69,8 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6"
-        >
+          className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6">
+          
           <span className="kinetic-word">Word</span>{' '}
           <span className="kinetic-word">of</span>{' '}
           <span className="kinetic-word">Mouth</span>
@@ -87,8 +87,8 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="flex justify-center mb-8"
-        >
+          className="flex justify-center mb-8">
+          
           <div className="w-72 liquid-glass rounded-[2.5rem] p-3 shadow-2xl">
             <div className="bg-background rounded-[2rem] overflow-hidden">
               {/* Phone Status Bar */}
@@ -114,10 +114,10 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
               <div className="px-4 pb-6 space-y-3">
                 <motion.div
                   animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 10 }}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50"
-                >
+                  className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50">
+                  
                   <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-primary-foreground flex-shrink-0">
-                    {(() => { const Icon = searchTerms[currentTerm].icon; return <Icon className="w-5 h-5" />; })()}
+                    {(() => {const Icon = searchTerms[currentTerm].icon;return <Icon className="w-5 h-5" />;})()}
                   </div>
                   <div className="text-left">
                     <div className="text-sm font-semibold">{searchTerms[currentTerm].name}</div>
@@ -134,8 +134,8 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35 }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light"
-        >
+          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+          
           Professional NFC contact cards with{' '}
           <span className="text-foreground font-medium">intelligent keyword search</span>.
           Your clients find you even when they forget your name.
@@ -146,13 +146,13 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.45 }}
-          className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-16"
-        >
+          className="flex flex-col sm:flex-row gap-4 items-center justify-center mb-16">
+          
           <Button
             onClick={onGetStarted}
             size="lg"
-            className="rounded-full px-10 py-6 text-base font-semibold bg-foreground text-background hover:bg-foreground/90 btn-ripple group"
-          >
+            className="rounded-full px-10 py-6 text-base font-semibold bg-foreground text-background hover:bg-foreground/90 btn-ripple group">
+            
             Get Your Elite Card
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
@@ -160,8 +160,8 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
             onClick={onLearnMore}
             variant="outline"
             size="lg"
-            className="rounded-full px-10 py-6 text-base font-semibold border-border/50 hover:bg-secondary/50 liquid-glass group"
-          >
+            className="rounded-full px-10 py-6 text-base font-semibold border-border/50 hover:bg-secondary/50 liquid-glass group">
+            
             <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
             Watch Demo
           </Button>
@@ -172,17 +172,17 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/20 flex items-start justify-center p-1">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40"
-            />
-          </div>
+          className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          
+          
+
+
+
+
+
+          
         </motion.div>
       </div>
-    </section>
-  );
+    </section>);
+
 };
