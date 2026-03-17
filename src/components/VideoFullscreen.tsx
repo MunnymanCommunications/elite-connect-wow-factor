@@ -123,7 +123,7 @@ export const VideoFullscreen = ({ videos, initialIndex, isOpen, onClose, onIndex
             animate={{ opacity: 1, backdropFilter: 'blur(40px)' }}
             exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
             transition={{ duration: 0.5 }}
-            className="absolute inset-0 bg-foreground/80"
+            className="absolute inset-0 bg-white/70"
           />
 
           {/* Video area */}
