@@ -18,9 +18,6 @@ export const KeywordDemo = () => {
   const [currentTerm, setCurrentTerm] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
-  const [videoScale, setVideoScale] = useState(2.2);
-  const [videoOffsetY, setVideoOffsetY] = useState(0);
-  const [showControls, setShowControls] = useState(true);
 
   useEffect(() => {
     if (!isRevealed) return;
