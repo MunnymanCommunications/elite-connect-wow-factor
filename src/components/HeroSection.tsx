@@ -1,13 +1,48 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useState, useEffect } from 'react';
 
 interface HeroSectionProps {
   onLearnMore: () => void;
   onGetStarted: () => void;
 }
 
+const searchTerms = [
+  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
+  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor' },
+  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist' },
+  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist' },
+  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist' },
+  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber' },
+];
+
 export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
+  const [currentTerm, setCurrentTerm] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    const term = searchTerms[currentTerm].keyword;
+    if (isTyping) {
+      if (displayText.length < term.length) {
+        const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 120);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => setIsTyping(false), 1500);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      if (displayText.length > 0) {
+        const timeout = setTimeout(() => setDisplayText(displayText.slice(0, -1)), 50);
+        return () => clearTimeout(timeout);
+      } else {
+        setCurrentTerm((prev) => (prev + 1) % searchTerms.length);
+        setIsTyping(true);
+      }
+    }
+  }, [displayText, isTyping, currentTerm]);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Subtle Iridescent Orbs */}
@@ -29,29 +64,65 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
           </span>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline — smaller */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
-          className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-8"
+          className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter leading-[0.9] mb-6"
         >
           <span className="kinetic-word">Word</span>{' '}
           <span className="kinetic-word">of</span>{' '}
           <span className="kinetic-word">Mouth</span>
           <br />
-          <span className="kinetic-word text-muted-foreground font-light text-4xl sm:text-5xl md:text-7xl">+</span>
+          <span className="kinetic-word text-muted-foreground font-light text-2xl sm:text-3xl md:text-5xl">+</span>
           <br />
           <span className="kinetic-word font-serif italic gradient-iris">Referrals</span>{' '}
           <span className="kinetic-word">=</span>{' '}
           <span className="kinetic-word">Success</span>
         </motion.h1>
 
+        {/* Inline Keyword Search Animation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.25 }}
+          className="flex justify-center mb-8"
+        >
+          <div className="w-72 liquid-glass rounded-2xl p-1">
+            <div className="bg-background/80 rounded-xl overflow-hidden">
+              <div className="px-4 py-2.5">
+                <div className="flex items-center gap-3 bg-secondary rounded-lg px-3 py-2">
+                  <Search className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
+                  <span className="text-foreground font-medium text-sm">
+                    {displayText}
+                    <span className="animate-pulse-soft text-muted-foreground">|</span>
+                  </span>
+                </div>
+              </div>
+              <motion.div
+                animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 8 }}
+                className="px-4 pb-3"
+              >
+                <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary/50">
+                  <div className="w-8 h-8 rounded-full gradient-iris-bg flex items-center justify-center text-[10px] font-bold text-primary-foreground flex-shrink-0">
+                    {searchTerms[currentTerm].name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-semibold">{searchTerms[currentTerm].name}</div>
+                    <div className="text-[10px] text-muted-foreground">{searchTerms[currentTerm].title}</div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Subheadline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light"
         >
           Professional NFC contact cards with{' '}
@@ -83,25 +154,6 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
             <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
             Watch Demo
           </Button>
-        </motion.div>
-
-        {/* Social Proof */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.6 }}
-          className="flex items-center justify-center gap-8 text-sm text-muted-foreground"
-        >
-          <div className="flex -space-x-3">
-            {[1,2,3,4,5].map((i) => (
-              <div key={i} className="w-10 h-10 rounded-full bg-secondary border-2 border-background flex items-center justify-center text-xs font-bold text-muted-foreground">
-                {String.fromCharCode(64 + i)}
-              </div>
-            ))}
-          </div>
-          <span className="font-light">
-            Join thousands connecting <span className="font-medium text-foreground">smarter</span>
-          </span>
         </motion.div>
 
         {/* Scroll Indicator */}
