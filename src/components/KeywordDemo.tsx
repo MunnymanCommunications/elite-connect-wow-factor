@@ -3,7 +3,14 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Search, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const searchTerms = ['home', 'insurance', 'acupuncture', 'real estate', 'dentist', 'plumber'];
+const searchTerms = [
+  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
+  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor' },
+  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist' },
+  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist' },
+  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist' },
+  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber' },
+];
 
 export const KeywordDemo = () => {
   const { ref, isRevealed } = useScrollReveal();
