@@ -142,7 +142,7 @@ export const VideoFullscreen = ({ videos, initialIndex, isOpen, onClose, onIndex
               >
                 <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                   <iframe
-                    src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=1&loop=1&playlist=${video.id}&controls=1&modestbranding=1&playsinline=1&rel=0`}
+                    src={`https://www.youtube.com/embed/${video.id}?autoplay=1&mute=0&loop=1&playlist=${video.id}&controls=1&modestbranding=1&playsinline=1&rel=0`}
                     className="w-full h-full border-0"
                     allow="autoplay; encrypted-media"
                     allowFullScreen
