@@ -103,10 +103,12 @@ export const KeywordDemo = () => {
                     animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 10 }}
                     className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50"
                   >
-                    <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-xs font-bold text-primary-foreground">EC</div>
+                    <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-xs font-bold text-primary-foreground">
+                      {searchTerms[currentTerm].name.split(' ').map(n => n[0]).join('')}
+                    </div>
                     <div>
-                      <div className="text-sm font-semibold">Your Name</div>
-                      <div className="text-xs text-muted-foreground">Elite Contact Card</div>
+                      <div className="text-sm font-semibold">{searchTerms[currentTerm].name}</div>
+                      <div className="text-xs text-muted-foreground">{searchTerms[currentTerm].title}</div>
                     </div>
                   </motion.div>
                 </div>
