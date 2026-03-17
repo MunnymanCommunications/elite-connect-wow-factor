@@ -34,11 +34,11 @@ const Index = () => {
 
       <HeroSection onLearnMore={handleLearnMore} onGetStarted={handleGetStarted} />
 
+      <KeywordDemo />
+
       <div id="features">
         <FeaturesSection />
       </div>
-
-      <KeywordDemo />
 
       <CardShowcase />
 

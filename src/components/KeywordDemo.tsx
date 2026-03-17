@@ -3,7 +3,14 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Search, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const searchTerms = ['home', 'insurance', 'acupuncture', 'real estate', 'dentist', 'plumber'];
+const searchTerms = [
+  { keyword: 'home', name: 'Jacob Everson', title: 'Real Estate Professional' },
+  { keyword: 'insurance', name: 'Samantha Clarke', title: 'Insurance Advisor' },
+  { keyword: 'acupuncture', name: 'Mei Lin Zhang', title: 'Licensed Acupuncturist' },
+  { keyword: 'tall', name: 'Nicholas Munn', title: 'Customer Retention Specialist' },
+  { keyword: 'dentist', name: 'Dr. Priya Sharma', title: 'Family Dentist' },
+  { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber' },
+];
 
 export const KeywordDemo = () => {
   const { ref, isRevealed } = useScrollReveal();
@@ -14,10 +21,10 @@ export const KeywordDemo = () => {
   useEffect(() => {
     if (!isRevealed) return;
     
-    const term = searchTerms[currentTerm];
+    const term = searchTerms[currentTerm].keyword;
     if (isTyping) {
       if (displayText.length < term.length) {
-        const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 100);
+        const timeout = setTimeout(() => setDisplayText(term.slice(0, displayText.length + 1)), 120);
         return () => clearTimeout(timeout);
       } else {
         const timeout = setTimeout(() => setIsTyping(false), 1500);
@@ -96,10 +103,12 @@ export const KeywordDemo = () => {
                     animate={{ opacity: displayText.length > 2 ? 1 : 0, y: displayText.length > 2 ? 0 : 10 }}
                     className="flex items-center gap-3 p-3 rounded-xl bg-secondary/50"
                   >
-                    <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-xs font-bold text-primary-foreground">EC</div>
+                    <div className="w-10 h-10 rounded-full gradient-iris-bg flex items-center justify-center text-xs font-bold text-primary-foreground">
+                      {searchTerms[currentTerm].name.split(' ').map(n => n[0]).join('')}
+                    </div>
                     <div>
-                      <div className="text-sm font-semibold">Your Name</div>
-                      <div className="text-xs text-muted-foreground">Elite Contact Card</div>
+                      <div className="text-sm font-semibold">{searchTerms[currentTerm].name}</div>
+                      <div className="text-xs text-muted-foreground">{searchTerms[currentTerm].title}</div>
                     </div>
                   </motion.div>
                 </div>
