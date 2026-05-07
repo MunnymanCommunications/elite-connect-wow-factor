@@ -37,6 +37,11 @@ export const SEO_METADATA = {
     description:
       "Answers to common questions about Elite Card Pro NFC contact cards, keyword search, pricing, compatibility, and how to start generating referrals.",
   },
+  "/website-services/": {
+    title: "Website Services | Custom Sites, Hosting & Management | Elite Card Pro",
+    description:
+      "Conversion-focused website design, fast managed hosting, and ongoing updates from Munnyman Communications. Treat your site like the growth asset it is.",
+  },
   "/elite-network/": {
     title: "Elite Network | Professional Networking Community | Elite Card Pro",
     description:
