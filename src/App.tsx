@@ -10,6 +10,7 @@ import EliteReviewPlacards from "./pages/EliteReviewPlacards";
 import VideosPage from "./pages/Videos";
 import AISolutions from "./pages/AISolutions";
 import FAQ from "./pages/FAQ";
+import WebsiteServices from "./pages/WebsiteServices";
 import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard } from "./pages/ProductPages";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/ai-solutions" element={<AISolutions />} />
           <Route path="/frequently-asked-questions" element={<FAQ />} />
+          <Route path="/website-services" element={<WebsiteServices />} />
           <Route path="/elite-network" element={<EliteNetwork />} />
           <Route path="/venmo-card" element={<VenmoCard />} />
           <Route path="/bitcoin-elite-wallet-card" element={<BitcoinWalletCard />} />
