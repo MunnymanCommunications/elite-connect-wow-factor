@@ -13,4 +13,7 @@
   <url><loc>https://elitecardpro.com/frequently-asked-questions/</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://elitecardpro.com/nicholasmunn/</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://elitecardpro.com/on-boarding/</loc><priority>0.5</priority><changefreq>monthly</changefreq></url>
+
+  <!-- Auto-added by prerender.mjs -->
+  <url><loc>https://elitecardpro.com/website-services/</loc><priority>0.7</priority><changefreq>monthly</changefreq></url>
 </urlset>
