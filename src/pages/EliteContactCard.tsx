@@ -316,7 +316,7 @@ const EliteContactCard = () => {
             className="max-w-6xl mx-auto liquid-glass rounded-3xl p-4 md:p-8"
           >
             <img
-              src="/src/assets/elite-card-internals.png"
+              src={eliteCardInternals}
               alt="NFC Card layers and components — card body, antenna coil, NFC chip, connector bond wires, substrate layer, protective overlay, back body"
               className="w-full h-auto rounded-2xl"
               loading="lazy"
