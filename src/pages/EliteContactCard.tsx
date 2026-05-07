@@ -18,6 +18,7 @@ import {
   BarChart3, Mail, MessageSquare, Users, Settings, Pencil, Link, QrCode,
   Package, Upload, Palette, Truck, X
 } from 'lucide-react';
+import eliteCardInternals from '@/assets/elite-card-internals.png';
 
 const features = [
   { icon: Smartphone, title: 'NFC Tap to Share', desc: 'One tap shares your full contact profile. Works through cases with fractal antenna tech.' },
