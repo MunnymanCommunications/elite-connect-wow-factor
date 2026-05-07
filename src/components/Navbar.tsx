@@ -3,11 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/elite-card-pro-logo.png';
 
 const navLinks = [
   { label: 'Products', href: '/elite-contact-card' },
   { label: 'Review Placards', href: '/elite-review-placards' },
-  { label: 'Websites', href: '/website-services' },
   { label: 'AI Solutions', href: '/ai-solutions' },
   { label: 'Videos', href: '/videos' },
   { label: 'Blog', href: '/blog' },
@@ -35,13 +35,12 @@ export const Navbar = () => {
         scrolled ? 'liquid-glass-nav py-3' : 'py-5 bg-transparent'
       }`}>
         <div className="container mx-auto px-6 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-foreground flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-              <span className="text-sm font-bold text-background">EC</span>
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground">
-              Elite Card Pro
-            </span>
+          <Link to="/" className="flex items-center group" aria-label="Elite Card Pro home">
+            <img
+              src={logo}
+              alt="Elite Card Pro"
+              className="h-9 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
           </Link>
 
           {/* Desktop Nav */}

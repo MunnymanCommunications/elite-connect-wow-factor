@@ -2,6 +2,12 @@ import { useState } from 'react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { SEOHead } from '@/components/SEOHead';
+import { CardDesignEmbed } from '@/components/CardDesignEmbed';
+import { KeywordDemo } from '@/components/KeywordDemo';
+import { HeroSection } from '@/components/HeroSection';
+import { FeaturesSection } from '@/components/FeaturesSection';
+import { VideoCarousel } from '@/components/VideoCarousel';
+import { LeadCaptureModal } from '@/components/LeadCaptureModal';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -108,6 +114,12 @@ const gettingStartedSteps = [
 
 const EliteContactCard = () => {
   const [gettingStartedOpen, setGettingStartedOpen] = useState(false);
+  const [showLeadModal, setShowLeadModal] = useState(false);
+
+  const handleGetStarted = () => setShowLeadModal(true);
+  const handleLearnMore = () => {
+    document.getElementById('see-it-in-action')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,110 +130,110 @@ const EliteContactCard = () => {
       />
       <Navbar />
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 mesh-section">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-4xl mx-auto text-center">
-            <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase">Core Product</Badge>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">
-              The Elite
-              <br />
-              <span className="font-serif italic gradient-gold">Contact Card</span>
-            </h1>
-            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto mb-10">
-              Professional NFC contact cards engineered to generate word-of-mouth referrals through intelligent keyword search technology.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="rounded-full px-10 py-6 bg-foreground text-background hover:bg-foreground/90 group">
-                <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
-                  Get Started — $150/yr
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="rounded-full px-10 py-6 group">
-                <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
-                  Go Pro — $250/yr
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
-            </div>
+      {/* Hero (moved from home) */}
+      <HeroSection onLearnMore={handleLearnMore} onGetStarted={handleGetStarted} />
 
-            {/* Video */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden shadow-2xl"
-              style={{ aspectRatio: '16/9' }}
-            >
-              <iframe
-                src="https://www.youtube.com/embed/i_6JVumKbrQ?autoplay=1&mute=1&loop=1&playlist=i_6JVumKbrQ&controls=1&modestbranding=1&playsinline=1&rel=0"
-                className="w-full h-full border-0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                title="Elite Contact Card Overview"
-              />
-            </motion.div>
-          </motion.div>
+      {/* Demo video — moved here (just the video, no titles/buttons) */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9' }}>
+            <iframe
+              src="https://www.youtube.com/embed/i_6JVumKbrQ?autoplay=1&mute=1&loop=1&playlist=i_6JVumKbrQ&controls=1&modestbranding=1&playsinline=1&rel=0"
+              className="w-full h-full border-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Elite Contact Card In Action"
+            />
+          </div>
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Features — Dominate Your Networking Game */}
+      <FeaturesSection />
+
+      {/* Keyword Search Demo */}
+      <KeywordDemo />
+
+      {/* Interactive Card Design Embed */}
+      <CardDesignEmbed />
+
+      {/* Getting Started */}
       <section className="py-24">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-12 text-center">
-              How It <span className="font-serif italic gradient-gold">Works</span>
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
-              {[
-                { step: '01', title: 'Tap', desc: 'Hold your Elite Card to any smartphone. The 13.56MHz NFC chip connects instantly.' },
-                { step: '02', title: 'Connect', desc: 'Your full contact profile, links, and keywords are saved to their phone.' },
-                { step: '03', title: 'Rediscover', desc: 'Months later, they search "home" in contacts and find you immediately.' },
-              ].map((item, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 * i }}>
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-6">
+            Getting Started is <span className="font-serif italic gradient-gold">Simple</span>
+          </h2>
+          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto font-light">
+            From order to card-in-hand in just 4 easy steps.
+          </p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12">
+            {gettingStartedSteps.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 * i }}>
                   <Card className="liquid-glass border-0 h-full hover-lift">
-                    <CardContent className="p-8 text-center">
-                      <div className="text-5xl font-black gradient-gold mb-4">{item.step}</div>
-                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-sm text-muted-foreground">{item.desc}</p>
+                    <CardContent className="p-6 text-center">
+                      <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center mx-auto mb-4">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Step {s.step}</div>
+                      <h3 className="font-bold mb-2">{s.title}</h3>
+                      <p className="text-sm text-muted-foreground">{s.desc}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-24 mesh-section">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-12 text-center">
-            Everything <span className="font-serif italic gradient-gold">Included</span>
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {features.map((f, i) => {
-              const Icon = f.icon;
-              return (
-                <Card key={i} className="liquid-glass border-0 hover-lift">
-                  <CardContent className="p-6 flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">{f.title}</h3>
-                      <p className="text-sm text-muted-foreground">{f.desc}</p>
-                    </div>
-                  </CardContent>
-                </Card>
               );
             })}
           </div>
+
+          <Dialog open={gettingStartedOpen} onOpenChange={setGettingStartedOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="lg" className="rounded-full px-8 group">
+                See Full Setup Process
+                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-black tracking-tight">Getting Started</DialogTitle>
+                <DialogDescription className="text-muted-foreground">Your journey from order to connecting.</DialogDescription>
+              </DialogHeader>
+              <div className="space-y-6 pt-4">
+                {gettingStartedSteps.map((s, i) => {
+                  const Icon = s.icon;
+                  return (
+                    <div key={i} className="flex gap-4">
+                      <div className="flex flex-col items-center">
+                        <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        {i < gettingStartedSteps.length - 1 && (
+                          <div className="w-px h-full bg-border mt-2" />
+                        )}
+                      </div>
+                      <div className="pb-4">
+                        <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Step {s.step}</div>
+                        <h4 className="font-bold mb-1">{s.title}</h4>
+                        <p className="text-sm text-muted-foreground">{s.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="pt-4">
+                <Button asChild size="lg" className="w-full rounded-full bg-foreground text-background hover:bg-foreground/90 group">
+                  <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
+                    Schedule a Consultation
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
-      {/* Standard vs Pro Comparison */}
       <section className="py-24">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 text-center">
@@ -286,6 +298,11 @@ const EliteContactCard = () => {
       {/* Elite Connections Dashboard */}
       <section className="py-24 mesh-section">
         <div className="container mx-auto px-6">
+          <div className="flex justify-center mb-4">
+            <Badge className="rounded-full px-4 py-1 text-xs tracking-widest uppercase bg-foreground text-background">
+              Available on Pro Plans Only
+            </Badge>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 text-center">
             The Elite Connections <span className="font-serif italic gradient-gold">Dashboard</span>
           </h2>
@@ -338,6 +355,44 @@ const EliteContactCard = () => {
               />
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* See It In Action — repurposed Elite Contact Card hero video */}
+      <section id="see-it-in-action" className="py-24 mesh-section">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase">Demo</Badge>
+            <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+              See It <span className="font-serif italic gradient-iris">In Action</span>
+            </h2>
+            <p className="text-lg text-muted-foreground font-light max-w-2xl mx-auto mb-10">
+              Watch the Elite Contact Card transform networking in real time.
+            </p>
+            <div className="mx-auto">
+              <VideoCarousel />
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+              <Button asChild size="lg" className="rounded-full px-10 py-6 bg-foreground text-background hover:bg-foreground/90 group">
+                <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
+                  Get Started — $150/yr
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full px-10 py-6 group">
+                <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
+                  Go Pro — $250/yr
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </Button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -416,81 +471,31 @@ const EliteContactCard = () => {
         </div>
       </section>
 
-      {/* Getting Started */}
+      {/* How It Works */}
       <section className="py-24 mesh-section">
-        <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-6">
-            Getting Started is <span className="font-serif italic gradient-gold">Simple</span>
-          </h2>
-          <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto font-light">
-            From order to card-in-hand in just 4 easy steps.
-          </p>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12">
-            {gettingStartedSteps.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 * i }}>
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-12 text-center">
+              How It <span className="font-serif italic gradient-gold">Works</span>
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              {[
+                { step: '01', title: 'Tap', desc: 'Hold your Elite Card to any smartphone. The 13.56MHz NFC chip connects instantly.' },
+                { step: '02', title: 'Connect', desc: 'Your full contact profile, links, and keywords are saved to their phone.' },
+                { step: '03', title: 'Rediscover', desc: 'Months later, they search "home" in contacts and find you immediately.' },
+              ].map((item, i) => (
+                <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 * i }}>
                   <Card className="liquid-glass border-0 h-full hover-lift">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center mx-auto mb-4">
-                        <Icon className="w-6 h-6" />
-                      </div>
-                      <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Step {s.step}</div>
-                      <h3 className="font-bold mb-2">{s.title}</h3>
-                      <p className="text-sm text-muted-foreground">{s.desc}</p>
+                    <CardContent className="p-8 text-center">
+                      <div className="text-5xl font-black gradient-gold mb-4">{item.step}</div>
+                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground">{item.desc}</p>
                     </CardContent>
                   </Card>
                 </motion.div>
-              );
-            })}
+              ))}
+            </div>
           </div>
-
-          {/* Dialog trigger for detailed view */}
-          <Dialog open={gettingStartedOpen} onOpenChange={setGettingStartedOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="lg" className="rounded-full px-8 group">
-                See Full Setup Process
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-black tracking-tight">Getting Started</DialogTitle>
-                <DialogDescription className="text-muted-foreground">Your journey from order to connecting.</DialogDescription>
-              </DialogHeader>
-              <div className="space-y-6 pt-4">
-                {gettingStartedSteps.map((s, i) => {
-                  const Icon = s.icon;
-                  return (
-                    <div key={i} className="flex gap-4">
-                      <div className="flex flex-col items-center">
-                        <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        {i < gettingStartedSteps.length - 1 && (
-                          <div className="w-px h-full bg-border mt-2" />
-                        )}
-                      </div>
-                      <div className="pb-4">
-                        <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">Step {s.step}</div>
-                        <h4 className="font-bold mb-1">{s.title}</h4>
-                        <p className="text-sm text-muted-foreground">{s.desc}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="pt-4">
-                <Button asChild size="lg" className="w-full rounded-full bg-foreground text-background hover:bg-foreground/90 group">
-                  <a href="https://calendly.com/elitecardpro" target="_blank" rel="noopener noreferrer">
-                    Schedule a Consultation
-                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </section>
 
@@ -513,6 +518,12 @@ const EliteContactCard = () => {
       </section>
 
       <Footer />
+
+      <LeadCaptureModal
+        isOpen={showLeadModal}
+        onClose={() => setShowLeadModal(false)}
+        selectedPlan=""
+      />
     </div>
   );
 };

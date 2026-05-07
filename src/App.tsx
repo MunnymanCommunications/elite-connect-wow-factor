@@ -10,8 +10,7 @@ import EliteReviewPlacards from "./pages/EliteReviewPlacards";
 import VideosPage from "./pages/Videos";
 import AISolutions from "./pages/AISolutions";
 import FAQ from "./pages/FAQ";
-import WebsiteServices from "./pages/WebsiteServices";
-import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard } from "./pages/ProductPages";
+import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard, WebDesign, CustomSoftware } from "./pages/ProductPages";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +27,6 @@ const App = () => (
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/ai-solutions" element={<AISolutions />} />
           <Route path="/frequently-asked-questions" element={<FAQ />} />
-          <Route path="/website-services" element={<WebsiteServices />} />
           <Route path="/elite-network" element={<EliteNetwork />} />
           <Route path="/venmo-card" element={<VenmoCard />} />
           <Route path="/bitcoin-elite-wallet-card" element={<BitcoinWalletCard />} />
@@ -36,6 +34,8 @@ const App = () => (
           <Route path="/nicholasmunn" element={<About />} />
           <Route path="/on-boarding" element={<OnBoarding />} />
           <Route path="/digital-business-card" element={<DigitalBusinessCard />} />
+          <Route path="/web-design" element={<WebDesign />} />
+          <Route path="/custom-software" element={<CustomSoftware />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

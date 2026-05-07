@@ -9,6 +9,7 @@ import {
   Shield,
   Share2,
   Globe,
+  Infinity as InfinityIcon,
 } from 'lucide-react';
 
 const features = [
@@ -46,7 +47,7 @@ const features = [
 
 const stats = [
   { value: '500%', label: 'More Referrals' },
-  { value: '10K+', label: 'Professionals' },
+  { value: null, icon: InfinityIcon, label: 'Unlimited Shares' },
   { value: '24/7', label: 'Always Active' },
   { value: '99.9%', label: 'Reliability' },
 ];
@@ -109,12 +110,17 @@ export const FeaturesSection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-8"
         >
-          {stats.map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="text-4xl md:text-5xl font-black tracking-tighter gradient-iris mb-1">{stat.value}</div>
-              <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
-            </div>
-          ))}
+          {stats.map((stat, i) => {
+            const Icon = (stat as any).icon;
+            return (
+              <div key={i} className="text-center">
+                <div className="text-4xl md:text-5xl font-black tracking-tighter gradient-iris mb-1 flex items-center justify-center min-h-[3rem]">
+                  {stat.value ? stat.value : Icon ? <Icon className="w-12 h-12 md:w-14 md:h-14" strokeWidth={2.5} /> : null}
+                </div>
+                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+              </div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

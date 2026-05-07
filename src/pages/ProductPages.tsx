@@ -64,3 +64,23 @@ export const OnBoarding = () => (
 export const DigitalBusinessCard = () => (
   <PageTemplate title="Digital Business Card" subtitle="The future of business cards is digital. NFC-powered, always updated, and impossible to lose." seoTitle="Digital Business Card — NFC Business Cards | Elite Card Pro" seoDesc="Professional digital business cards with NFC technology. Always updated, unlimited shares, keyword search optimization." canonical="/digital-business-card" />
 );
+
+export const WebDesign = () => (
+  <PageTemplate
+    title="Custom Website Design + Management"
+    subtitle="Beautiful, conversion-focused websites — fully managed. From design to deployment, we handle every pixel and every update so you can focus on running your business."
+    seoTitle="Custom Website Design & Management | Elite Card Pro"
+    seoDesc="Custom website design and full-service management for professionals. Conversion-focused, mobile-first, and built to grow your business."
+    canonical="/web-design"
+  />
+);
+
+export const CustomSoftware = () => (
+  <PageTemplate
+    title="Custom Software, Built For You"
+    subtitle="Bespoke software fully integrated into your business — internal tools, customer portals, automation systems. Built around how your team actually works."
+    seoTitle="Custom Software Development & Integration | Elite Card Pro"
+    seoDesc="Custom software development and full business integration. Internal tools, customer portals, and automation built around your workflow."
+    canonical="/custom-software"
+  />
+);

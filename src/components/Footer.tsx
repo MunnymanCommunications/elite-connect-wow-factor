@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import logo from '@/assets/elite-card-pro-logo.png';
 
 const footerLinks = {
   Products: [
@@ -16,7 +17,6 @@ const footerLinks = {
     { label: 'Onboarding', href: '/on-boarding' },
   ],
   Solutions: [
-    { label: 'Website Services', href: '/website-services' },
     { label: 'AI Solutions', href: '/ai-solutions' },
     { label: 'Videos', href: '/videos' },
   ],
@@ -28,11 +28,8 @@ export const Footer = () => (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-foreground flex items-center justify-center">
-              <span className="text-sm font-bold text-background">EC</span>
-            </div>
-            <span className="text-lg font-bold tracking-tight">Elite Card Pro</span>
+          <div className="flex items-center mb-4">
+            <img src={logo} alt="Elite Card Pro" className="h-10 w-auto object-contain" />
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed mb-4">
             Changing the way experts connect. Professional NFC contact cards that generate referrals.
