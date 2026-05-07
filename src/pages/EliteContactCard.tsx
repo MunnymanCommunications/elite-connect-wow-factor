@@ -295,6 +295,35 @@ const EliteContactCard = () => {
         </div>
       </section>
 
+      {/* The Science behind the Elite Card */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12 max-w-2xl mx-auto">
+            <Badge variant="outline" className="mb-6 rounded-full px-4 py-1 text-xs tracking-widest uppercase">Inside the Card</Badge>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tighter mb-4">
+              The Science Behind the <span className="font-serif italic gradient-iris">Elite Card</span>
+            </h2>
+            <p className="text-lg text-muted-foreground font-light">
+              Seven precision-engineered layers working together. Tap. Power. Connect.
+            </p>
+          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-6xl mx-auto liquid-glass rounded-3xl p-4 md:p-8"
+          >
+            <img
+              src="/src/assets/elite-card-internals.png"
+              alt="NFC Card layers and components — card body, antenna coil, NFC chip, connector bond wires, substrate layer, protective overlay, back body"
+              className="w-full h-auto rounded-2xl"
+              loading="lazy"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       {/* Elite Connections Dashboard */}
       <section className="py-24 mesh-section">
         <div className="container mx-auto px-6">
