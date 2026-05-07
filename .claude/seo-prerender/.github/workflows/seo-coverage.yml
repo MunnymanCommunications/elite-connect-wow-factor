@@ -1,0 +1,175 @@
+name: SEO Metadata Coverage
+
+# Runs on every push to main. If any routes are using fallback SEO copy
+# (i.e., a new page was added but seo-metadata.mjs wasn't updated), this
+# action opens or updates an issue listing those routes with Claude-suggested
+# titles and descriptions ready to paste in.
+#
+# This action does NOT block deploys — Vercel still builds and prerenders the
+# site with fallback copy. The action exists to surface the work, not gate it.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-seo-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run route + metadata audit
+        id: audit
+        # Capture stdout, allow the script to "fail" with warnings without breaking the action
+        run: |
+          set +e
+          OUTPUT=$(node verify-prerender.mjs --routes 2>&1)
+          STATUS=$?
+          echo "$OUTPUT"
+          # Extract every route flagged with "No custom SEO metadata"
+          MISSING=$(echo "$OUTPUT" | grep -oE "No custom SEO metadata for: [^ ]+" | sed 's|No custom SEO metadata for: ||' | sort -u)
+          {
+            echo "missing_routes<<EOF"
+            echo "$MISSING"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+          if [ -z "$MISSING" ]; then
+            echo "has_missing=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_missing=true" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
+
+      - name: Generate SEO suggestions with Claude
+        if: steps.audit.outputs.has_missing == 'true'
+        id: suggestions
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MISSING_ROUTES: ${{ steps.audit.outputs.missing_routes }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::warning::ANTHROPIC_API_KEY not set; skipping Claude suggestions. Add it in Settings → Secrets → Actions."
+            echo "suggestions=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Read business context from index.html (title) + package.json (name) for grounding
+          SITE_TITLE=$(grep -oP '(?<=<title>)[^<]+' index.html | head -1)
+          ROUTES_JSON=$(echo "$MISSING_ROUTES" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          PROMPT=$(cat <<EOF
+          You are writing SEO titles and meta descriptions for a Vite+React website. The site title is: ${SITE_TITLE}.
+          For each of the following routes, produce a JSON object with this shape:
+            { "<route>": { "title": "...", "description": "..." } }
+          Title: 50-60 characters, includes site/brand name, descriptive of page purpose inferred from the URL slug.
+          Description: 140-160 characters, action-oriented, includes brand name and key page topic.
+          Routes: ${ROUTES_JSON}
+          Return ONLY the JSON object — no prose, no markdown fences.
+          EOF
+          )
+          RESPONSE=$(curl -sS https://api.anthropic.com/v1/messages \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            -H "content-type: application/json" \
+            -d "$(jq -n --arg p "$PROMPT" '{
+              model: "claude-sonnet-4-5",
+              max_tokens: 4000,
+              messages: [{role: "user", content: $p}]
+            }')")
+          SUGGESTIONS=$(echo "$RESPONSE" | jq -r '.content[0].text // empty')
+          {
+            echo "suggestions<<EOF"
+            echo "$SUGGESTIONS"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open or update SEO coverage issue
+        if: steps.audit.outputs.has_missing == 'true'
+        uses: actions/github-script@v7
+        env:
+          MISSING: ${{ steps.audit.outputs.missing_routes }}
+          SUGGESTIONS: ${{ steps.suggestions.outputs.suggestions }}
+        with:
+          script: |
+            const missing = (process.env.MISSING || "").split("\n").filter(Boolean);
+            const suggestions = process.env.SUGGESTIONS || "";
+
+            const title = `[SEO] ${missing.length} route(s) missing custom metadata`;
+
+            let body = `## Routes using fallback SEO copy\n\n`;
+            body += `These routes were discovered in \`src/App.tsx\` but don't have entries in \`seo-metadata.mjs\`. `;
+            body += `They're being prerendered with auto-generated placeholder titles/descriptions, which is fine for indexing `;
+            body += `but won't rank as well as custom copy.\n\n`;
+            body += `**Routes needing copy:**\n`;
+            missing.forEach((r) => { body += `- \`${r}\`\n`; });
+            body += `\n`;
+
+            if (suggestions) {
+              body += `## Claude-suggested copy (review and paste into \`seo-metadata.mjs\`)\n\n`;
+              body += "```js\n" + suggestions + "\n```\n\n";
+              body += `Review each entry, edit anything that doesn't fit the page's actual content, then add the entries to \`seo-metadata.mjs\` and push. Vercel will redeploy and the warning will clear.\n`;
+            } else {
+              body += `_Claude suggestions unavailable — set the \`ANTHROPIC_API_KEY\` repo secret to enable._\n`;
+            }
+
+            // Find existing open issue with our label
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "seo-coverage",
+            });
+
+            if (existing.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing[0].number,
+                title,
+                body,
+              });
+              console.log(`Updated existing issue #${existing[0].number}`);
+            } else {
+              const { data: created } = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ["seo-coverage"],
+              });
+              console.log(`Opened new issue #${created.number}`);
+            }
+
+      - name: Close SEO issue if all routes covered
+        if: steps.audit.outputs.has_missing == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "seo-coverage",
+            });
+            for (const issue of existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: "closed",
+              });
+              console.log(`Closed resolved issue #${issue.number}`);
+            }

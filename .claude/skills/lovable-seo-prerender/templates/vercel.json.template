@@ -1,0 +1,7 @@
+{
+  "buildCommand": "vite build && node prerender.mjs",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

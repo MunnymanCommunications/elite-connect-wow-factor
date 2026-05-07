@@ -1,0 +1,101 @@
+/**
+ * Post-build prerendering script.
+ *
+ * Usage: node prerender.mjs  (run automatically by `npm run build`)
+ *
+ * After `vite build`, this script:
+ *   1. Builds the SSR bundle using Vite (entry: src/entry-server.tsx)
+ *   2. Renders each route in ALL_ROUTES to static HTML via React's renderToString
+ *   3. Injects per-route SEO metadata (<title>, description, OG, Twitter, canonical)
+ *   4. Writes route-specific index.html files to dist/
+ */
+import { build } from "vite";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { SEO_METADATA } from "./seo-metadata.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DIST_DIR = path.resolve(__dirname, "dist");
+const SSR_DIR = path.resolve(__dirname, "dist-ssr");
+
+// ── CUSTOMIZE: production domain used for canonical URLs ─────────────────
+const BASE_URL = "https://example.com";
+
+// ── CUSTOMIZE: every route to prerender. Exclude gated/admin routes. ─────
+const ALL_ROUTES = [
+  "/",
+  // "/about/",
+  // "/services/",
+  // ...
+];
+
+function escapeHtml(str) {
+  return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function injectMetadata(html, route) {
+  const meta = SEO_METADATA[route];
+  if (!meta) return html;
+  const safeTitle = escapeHtml(meta.title);
+  const safeDesc = escapeHtml(meta.description);
+  return html
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${safeTitle}</title>`)
+    .replace(/<meta name="description" content="[\s\S]*?">/, `<meta name="description" content="${safeDesc}">`)
+    .replace(/<meta property="og:title" content="[\s\S]*?">/, `<meta property="og:title" content="${safeTitle}">`)
+    .replace(/<meta property="og:description" content="[\s\S]*?">/, `<meta property="og:description" content="${safeDesc}">`)
+    .replace(/<meta name="twitter:title" content="[\s\S]*?">/, `<meta name="twitter:title" content="${safeTitle}">`)
+    .replace(/<meta name="twitter:description" content="[\s\S]*?">/, `<meta name="twitter:description" content="${safeDesc}">`);
+}
+
+async function prerender() {
+  console.log("🔨 Building SSR bundle...");
+  await build({
+    build: {
+      ssr: true,
+      outDir: SSR_DIR,
+      rollupOptions: {
+        input: "src/entry-server.tsx",
+        output: { format: "esm" },
+      },
+    },
+    resolve: {
+      alias: { "@": path.resolve(__dirname, "./src") },
+    },
+  });
+
+  const { render } = await import(path.join(SSR_DIR, "entry-server.js"));
+  const template = fs.readFileSync(path.join(DIST_DIR, "index.html"), "utf-8");
+
+  let successCount = 0;
+  let errorCount = 0;
+
+  for (const route of ALL_ROUTES) {
+    try {
+      const appHtml = render(route);
+      const canonicalPath = route.endsWith("/") ? route : route + "/";
+      const canonical = `${BASE_URL}${canonicalPath}`;
+      let html = template
+        .replace('<div id="root"></div>', `<div id="root">${appHtml}</div>`)
+        .replace("</head>", `  <link rel="canonical" href="${canonical}" />\n  </head>`);
+      html = injectMetadata(html, route);
+
+      const dir = path.join(DIST_DIR, canonicalPath);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, "index.html"), html);
+      successCount++;
+      console.log(`  ✓ ${route}`);
+    } catch (err) {
+      errorCount++;
+      console.error(`  ✗ ${route}: ${err.message}`);
+    }
+  }
+
+  fs.rmSync(SSR_DIR, { recursive: true, force: true });
+  console.log(`\n✅ Prerendered ${successCount}/${ALL_ROUTES.length} routes`);
+  if (errorCount > 0) {
+    console.log(`⚠️  ${errorCount} routes failed (they'll fall back to SPA)`);
+  }
+}
+
+prerender().catch(console.error);

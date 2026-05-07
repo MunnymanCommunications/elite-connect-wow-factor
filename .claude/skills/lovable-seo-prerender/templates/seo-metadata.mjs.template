@@ -1,0 +1,24 @@
+/**
+ * Per-page SEO metadata for prerendering.
+ * Used by prerender.mjs to inject unique <title>, <meta description>,
+ * and Open Graph / Twitter tags into each page's HTML.
+ *
+ * EVERY route in ALL_ROUTES (prerender.mjs) MUST have an entry here.
+ *
+ * Guidelines:
+ *  - title: 50–60 chars. Format: "Page Topic | Company Name"
+ *  - description: 140–160 chars. Active voice, primary keyword early,
+ *    include a CTA-style cue ("Available at", "Serving X since...").
+ *  - Don't reuse the same description across pages.
+ */
+
+export const SEO_METADATA = {
+  "/": {
+    title: "Company Name | Tagline With Primary Keywords",
+    description: "What you do, who you serve, where you operate, and the most compelling reason to click. Around 150 characters.",
+  },
+  // "/about/": {
+  //   title: "About Us | Company Name",
+  //   description: "...",
+  // },
+};

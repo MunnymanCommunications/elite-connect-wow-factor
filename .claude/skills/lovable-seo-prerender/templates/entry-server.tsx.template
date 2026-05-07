@@ -1,0 +1,49 @@
+/**
+ * SSR entry point for prerender.mjs.
+ *
+ * Mirrors src/App.tsx but:
+ *   - Uses StaticRouter instead of BrowserRouter
+ *   - Omits client-only providers (Toaster, Sonner, ScrollToTop, analytics)
+ *   - Bypasses auth gates (gated routes shouldn't be in ALL_ROUTES anyway)
+ *
+ * KEEP IN SYNC with App.tsx whenever new routes are added.
+ */
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Routes, Route } from "react-router-dom";
+import Layout from "@/components/layout/Layout";
+
+// Import every page component referenced in ALL_ROUTES
+import Index from "./pages/Index";
+// import About from "./pages/About";
+// ...
+
+export function render(url: string) {
+  const queryClient = new QueryClient();
+
+  const html = ReactDOMServer.renderToString(
+    React.createElement(
+      QueryClientProvider,
+      { client: queryClient },
+      React.createElement(
+        StaticRouter,
+        { location: url },
+        React.createElement(
+          Routes,
+          null,
+          React.createElement(
+            Route,
+            { element: React.createElement(Layout) },
+            React.createElement(Route, { path: "/", element: React.createElement(Index) }),
+            // React.createElement(Route, { path: "/about/", element: React.createElement(About) }),
+            // Add one Route per entry in ALL_ROUTES
+          )
+        )
+      )
+    )
+  );
+
+  return html;
+}
