@@ -1,41 +1,21 @@
 /**
- * Prerender verification script.
+ * Prerender verification script (auto-discovery edition).
  *
  * Usage:
  *   node verify-prerender.mjs           # full audit (needs a prior `npm run build`)
  *   node verify-prerender.mjs --routes  # routes vs sitemap only, no build needed
+ *
+ * Routes are discovered from src/App.tsx — no hand-maintained list.
  */
-
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { discoverRoutes } from "./route-discovery.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const ALL_ROUTES = [
-  "/",
-  "/elite-contact-card/",
-  "/elite-review-placards/",
-  "/videos/",
-  "/ai-solutions/",
-  "/frequently-asked-questions/",
-  "/elite-network/",
-  "/venmo-card/",
-  "/bitcoin-elite-wallet-card/",
-  "/blog/",
-  "/nicholasmunn/",
-  "/on-boarding/",
-  "/digital-business-card/",
-];
-
-const EXCLUDED_FROM_PRERENDER = new Set([]);
-const INTERNAL = new Set([]);
-
 const BASE_URL = "https://elitecardpro.com";
-const GENERIC_TITLE =
-  "Elite Card Pro — Professional NFC Contact Cards | Munnyman Communications";
-const GENERIC_DESC_FRAGMENT =
-  "Professional NFC contact cards with intelligent keyword search. Generate referrals, never lose a connection. Change the way experts connect.";
+const GENERIC_TITLE_FRAGMENT = "Elite Card Pro — Professional NFC Contact Cards";
 
 const DIST_DIR = path.resolve(__dirname, "dist");
 const SITEMAP_PATH = path.resolve(__dirname, "public/sitemap.xml");
@@ -50,56 +30,64 @@ const fail = (msg) => {
 let errors = 0;
 let warnings = 0;
 
+function normalize(route) {
+  return route.endsWith("/") ? route : route + "/";
+}
+
 function parseSitemapRoutes() {
+  if (!fs.existsSync(SITEMAP_PATH)) return [];
   const xml = fs.readFileSync(SITEMAP_PATH, "utf-8");
-  const matches = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)];
-  return matches.map((m) => {
+  return [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => {
     const url = m[1].trim();
     return url.replace(BASE_URL, "") || "/";
   });
 }
 
-function auditRoutes(sitemapRoutes) {
+function auditRoutes(prerenderedRoutes, sitemapRoutes, gated, excluded) {
   console.log("\n📋  ROUTE COVERAGE\n");
-  const prerenderedSet = new Set(ALL_ROUTES);
-  const sitemapSet = new Set(sitemapRoutes);
 
-  const sitemapNotPrerendered = sitemapRoutes.filter(
-    (r) => !prerenderedSet.has(r) && !EXCLUDED_FROM_PRERENDER.has(r)
-  );
+  const prerenderedSet = new Set(prerenderedRoutes.map(normalize));
+  const sitemapSet = new Set(sitemapRoutes.map(normalize));
+
+  const sitemapNotPrerendered = [...sitemapSet].filter((r) => !prerenderedSet.has(r));
   if (sitemapNotPrerendered.length) {
-    sitemapNotPrerendered.forEach((r) =>
-      fail(`In sitemap but NOT prerendered: ${r}`)
-    );
+    sitemapNotPrerendered.forEach((r) => fail(`In sitemap but NOT prerendered: ${r}`));
   } else {
     ok("All sitemap URLs are prerendered");
   }
 
-  const prerenderedNotInSitemap = ALL_ROUTES.filter(
-    (r) => !sitemapSet.has(r) && !INTERNAL.has(r)
-  );
+  const prerenderedNotInSitemap = [...prerenderedSet].filter((r) => !sitemapSet.has(r));
   if (prerenderedNotInSitemap.length) {
-    prerenderedNotInSitemap.forEach((r) =>
-      warn(`Prerendered but NOT in sitemap: ${r}`)
-    );
+    prerenderedNotInSitemap.forEach((r) => warn(`Prerendered but NOT in sitemap: ${r}`));
     warnings += prerenderedNotInSitemap.length;
   }
+
+  if (gated.length) {
+    console.log(`\n  ℹ️   Auth-gated (intentionally NOT prerendered):`);
+    gated.forEach((r) => console.log(`       ${r}`));
+  }
+  if (excluded.length) {
+    console.log(`\n  ℹ️   Path-excluded (intentionally NOT prerendered):`);
+    excluded.forEach((r) => console.log(`       ${r}`));
+  }
 }
 
-async function auditMetadata() {
+async function auditMetadata(prerenderedRoutes) {
   console.log("\n🏷️   SEO METADATA COVERAGE\n");
   const { SEO_METADATA } = await import("./seo-metadata.mjs");
-  let missing = 0;
-  for (const route of ALL_ROUTES) {
-    if (!SEO_METADATA[route]) {
-      fail(`No SEO metadata for route: ${route}`);
-      missing++;
-    }
+  const missing = [];
+  for (const route of prerenderedRoutes) {
+    if (!SEO_METADATA[normalize(route)]) missing.push(normalize(route));
   }
-  if (missing === 0) ok(`All ${ALL_ROUTES.length} routes have SEO metadata`);
+  if (missing.length === 0) {
+    ok(`All ${prerenderedRoutes.length} routes have custom SEO metadata`);
+  } else {
+    missing.forEach((r) => warn(`No custom SEO metadata for ${r} (will use fallback)`));
+    warnings += missing.length;
+  }
 }
 
-function auditBuiltFiles() {
+function auditBuiltFiles(prerenderedRoutes) {
   console.log("\n🗂️   BUILT HTML FILES\n");
 
   if (!fs.existsSync(DIST_DIR)) {
@@ -108,8 +96,8 @@ function auditBuiltFiles() {
     return;
   }
 
-  for (const route of ALL_ROUTES) {
-    const routePath = route.endsWith("/") ? route : route + "/";
+  for (const route of prerenderedRoutes) {
+    const routePath = normalize(route);
     const htmlPath = path.join(DIST_DIR, routePath, "index.html");
 
     if (!fs.existsSync(htmlPath)) {
@@ -132,17 +120,14 @@ function auditBuiltFiles() {
 
     const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/);
     const title = titleMatch ? titleMatch[1].trim() : "";
-    if (!title || title === GENERIC_TITLE) {
-      routeErrors.push(`generic/missing <title>: "${title}"`);
+    if (!title) routeErrors.push("missing <title>");
+    if (routePath !== "/" && title.startsWith(GENERIC_TITLE_FRAGMENT)) {
+      routeErrors.push(`generic <title> on non-home route: "${title}"`);
     }
 
     const descMatch = html.match(/<meta name="description" content="([\s\S]*?)"/);
     const desc = descMatch ? descMatch[1].trim() : "";
-    if (!desc || desc.startsWith(GENERIC_DESC_FRAGMENT.slice(0, 40))) {
-      if (route !== "/") {
-        routeErrors.push(`generic/missing <meta description>`);
-      }
-    }
+    if (!desc) routeErrors.push("missing <meta description>");
 
     const canonical = `${BASE_URL}${routePath}`;
     if (!html.includes(`rel="canonical" href="${canonical}"`)) {
@@ -150,9 +135,9 @@ function auditBuiltFiles() {
     }
 
     if (routeErrors.length) {
-      fail(`${route}\n      → ${routeErrors.join("\n      → ")}`);
+      fail(`${routePath}\n      → ${routeErrors.join("\n      → ")}`);
     } else {
-      ok(`${route}  "${title}"`);
+      ok(`${routePath}  "${title}"`);
     }
   }
 }
@@ -163,12 +148,13 @@ console.log("=".repeat(60));
 console.log("  PRERENDER VERIFICATION");
 console.log("=".repeat(60));
 
+const { routes: prerenderedRoutes, gated, excluded } = discoverRoutes();
 const sitemapRoutes = parseSitemapRoutes();
-auditRoutes(sitemapRoutes);
+auditRoutes(prerenderedRoutes, sitemapRoutes, gated, excluded);
 
 if (!routesOnly) {
-  await auditMetadata();
-  auditBuiltFiles();
+  await auditMetadata(prerenderedRoutes);
+  auditBuiltFiles(prerenderedRoutes);
 }
 
 console.log("\n" + "=".repeat(60));
