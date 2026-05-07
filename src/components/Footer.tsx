@@ -16,6 +16,7 @@ const footerLinks = {
     { label: 'Onboarding', href: '/on-boarding' },
   ],
   Solutions: [
+    { label: 'Website Services', href: '/website-services' },
     { label: 'AI Solutions', href: '/ai-solutions' },
     { label: 'Videos', href: '/videos' },
   ],
