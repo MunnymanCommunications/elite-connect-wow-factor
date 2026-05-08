@@ -10,8 +10,9 @@ import EliteReviewPlacards from "./pages/EliteReviewPlacards";
 import VideosPage from "./pages/Videos";
 import AISolutions from "./pages/AISolutions";
 import FAQ from "./pages/FAQ";
-import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard, CustomSoftware } from "./pages/ProductPages";
+import { EliteNetwork, VenmoCard, BitcoinWalletCard, Blog, About, OnBoarding, DigitalBusinessCard } from "./pages/ProductPages";
 import WebDesignServices from "./pages/WebDesignServices";
+import CustomSoftwareServices from "./pages/CustomSoftwareServices";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +37,7 @@ const App = () => (
           <Route path="/on-boarding" element={<OnBoarding />} />
           <Route path="/digital-business-card" element={<DigitalBusinessCard />} />
           <Route path="/web-design" element={<WebDesignServices />} />
-          <Route path="/custom-software" element={<CustomSoftware />} />
+          <Route path="/custom-software" element={<CustomSoftwareServices />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
