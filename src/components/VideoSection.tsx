@@ -1,8 +1,5 @@
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export const VideoSection = () => {
   const { ref, isRevealed } = useScrollReveal();
@@ -14,22 +11,40 @@ export const VideoSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isRevealed ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto"
+          className="text-center max-w-4xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
-            See Elite Cards
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-10">
+            Technology Inside Our
             <br />
-            <span className="font-serif italic gradient-iris">In Action</span>
+            <span className="font-serif italic gradient-iris">Cards and Placards</span>
           </h2>
-          <p className="text-lg text-muted-foreground font-light mb-10">
-            Watch real professionals demonstrate the power of Elite Contact Cards in our immersive video experience.
-          </p>
-          <Button asChild size="lg" className="rounded-full px-10 py-6 text-base font-semibold bg-foreground text-background hover:bg-foreground/90 group">
-            <Link to="/videos">
-              Watch Videos
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Button>
+
+          <div className="relative mx-auto rounded-3xl overflow-hidden liquid-glass shadow-2xl aspect-video">
+            {/* Crop edges via scaled video */}
+            <video
+              src="/videos/card-technology.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover scale-110"
+            />
+            {/* Mask the "Project" watermark in the bottom-middle-right */}
+            <div
+              aria-hidden
+              className="absolute pointer-events-none"
+              style={{
+                bottom: '6%',
+                right: '22%',
+                width: '18%',
+                height: '10%',
+                background: 'rgba(0,0,0,0.001)',
+                backdropFilter: 'blur(14px)',
+                WebkitBackdropFilter: 'blur(14px)',
+                borderRadius: '8px',
+              }}
+            />
+          </div>
         </motion.div>
       </div>
     </section>
