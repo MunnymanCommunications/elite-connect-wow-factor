@@ -1,0 +1,191 @@
+/**
+ * Prerender verification script (auto-discovery edition).
+ *
+ * Usage:
+ *   node verify-prerender.mjs           # full audit (needs a prior `npm run build`)
+ *   node verify-prerender.mjs --routes  # routes vs sitemap only, no build needed
+ *
+ * Routes are discovered from src/App.tsx via route-discovery.mjs — no
+ * hand-maintained list. The verifier checks:
+ *
+ *   1. Every prerendered route appears in public/sitemap.xml (warn if not)
+ *   2. Every sitemap entry corresponds to a prerendered route (fail if not)
+ *   3. Every prerendered route has a SEO_METADATA entry (warn if fallback)
+ *   4. Every dist/{route}/index.html has real content, a unique <title>,
+ *      a <meta description>, and the correct canonical URL
+ *
+ * CLIENT SETUP:
+ *   1. BASE_URL — client's production domain
+ *   2. GENERIC_TITLE_FRAGMENT — substring of the homepage's <title> in
+ *      index.html, used to detect when a non-home route got the generic title
+ */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { discoverRoutes } from "./route-discovery.mjs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// ⬇️ CLIENT SETUP
+const BASE_URL = "https://elitecardpro.com";
+const GENERIC_TITLE_FRAGMENT = "Elite Card Pro — Ai integrated";
+
+const DIST_DIR = path.resolve(__dirname, "dist");
+const SITEMAP_PATH = path.resolve(__dirname, "public/sitemap.xml");
+
+const ok = (msg) => console.log(`  ✅ ${msg}`);
+const warn = (msg) => console.warn(`  ⚠️  ${msg}`);
+const fail = (msg) => {
+  console.error(`  ❌ ${msg}`);
+  errors++;
+};
+
+let errors = 0;
+let warnings = 0;
+
+function normalize(route) {
+  return route.endsWith("/") ? route : route + "/";
+}
+
+function parseSitemapRoutes() {
+  if (!fs.existsSync(SITEMAP_PATH)) return [];
+  const xml = fs.readFileSync(SITEMAP_PATH, "utf-8");
+  return [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => {
+    const url = m[1].trim();
+    return url.replace(BASE_URL, "") || "/";
+  });
+}
+
+function auditRoutes(prerenderedRoutes, sitemapRoutes, gated, excluded) {
+  console.log("\n📋  ROUTE COVERAGE\n");
+
+  const prerenderedSet = new Set(prerenderedRoutes.map(normalize));
+  const sitemapSet = new Set(sitemapRoutes.map(normalize));
+
+  const sitemapNotPrerendered = [...sitemapSet].filter((r) => !prerenderedSet.has(r));
+  if (sitemapNotPrerendered.length) {
+    sitemapNotPrerendered.forEach((r) => fail(`In sitemap but NOT prerendered: ${r}`));
+  } else {
+    ok("All sitemap URLs are prerendered");
+  }
+
+  const prerenderedNotInSitemap = [...prerenderedSet].filter((r) => !sitemapSet.has(r));
+  if (prerenderedNotInSitemap.length) {
+    prerenderedNotInSitemap.forEach((r) => warn(`Prerendered but NOT in sitemap: ${r}`));
+    warnings += prerenderedNotInSitemap.length;
+  }
+
+  if (gated.length) {
+    console.log(`\n  ℹ️   Auth-gated (intentionally NOT prerendered):`);
+    gated.forEach((r) => console.log(`       ${r}`));
+  }
+  if (excluded.length) {
+    console.log(`\n  ℹ️   Path-excluded (intentionally NOT prerendered):`);
+    excluded.forEach((r) => console.log(`       ${r}`));
+  }
+}
+
+async function auditMetadata(prerenderedRoutes) {
+  console.log("\n🏷️   SEO METADATA COVERAGE\n");
+  const { SEO_METADATA } = await import("./seo-metadata.mjs");
+  const missing = [];
+  for (const route of prerenderedRoutes) {
+    if (!SEO_METADATA[normalize(route)]) missing.push(normalize(route));
+  }
+  if (missing.length === 0) {
+    ok(`All ${prerenderedRoutes.length} routes have custom SEO metadata`);
+  } else {
+    missing.forEach((r) => warn(`No custom SEO metadata for ${r} (will use fallback)`));
+    warnings += missing.length;
+  }
+}
+
+function auditBuiltFiles(prerenderedRoutes) {
+  console.log("\n🗂️   BUILT HTML FILES\n");
+
+  if (!fs.existsSync(DIST_DIR)) {
+    warn("dist/ directory not found — run `npm run build` first.");
+    warnings++;
+    return;
+  }
+
+  for (const route of prerenderedRoutes) {
+    const routePath = normalize(route);
+    const htmlPath = path.join(DIST_DIR, routePath, "index.html");
+
+    if (!fs.existsSync(htmlPath)) {
+      fail(`Missing: dist${routePath}index.html`);
+      continue;
+    }
+
+    const html = fs.readFileSync(htmlPath, "utf-8");
+    const routeErrors = [];
+
+    // The root div contains the entire React tree, including nested </div>s.
+    // Use last-</div> to find the true closing tag rather than a non-greedy
+    // regex which would stop at the first nested </div>.
+    const rootStart = html.indexOf('<div id="root">');
+    const rootEnd = html.lastIndexOf("</div>");
+    const rootContent =
+      rootStart >= 0 && rootEnd > rootStart
+        ? html.slice(rootStart + '<div id="root">'.length, rootEnd)
+        : "";
+    if (rootContent.trim().length < 100) {
+      routeErrors.push("root div is empty or suspiciously short");
+    }
+
+    const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/);
+    const title = titleMatch ? titleMatch[1].trim() : "";
+    if (!title) routeErrors.push("missing <title>");
+    if (routePath !== "/" && title.startsWith(GENERIC_TITLE_FRAGMENT)) {
+      routeErrors.push(`generic <title> on non-home route: "${title}"`);
+    }
+
+    const descMatch = html.match(/<meta name="description" content="([\s\S]*?)"/);
+    const desc = descMatch ? descMatch[1].trim() : "";
+    if (!desc) routeErrors.push("missing <meta description>");
+
+    const canonical = `${BASE_URL}${routePath}`;
+    if (!html.includes(`rel="canonical" href="${canonical}"`)) {
+      routeErrors.push(`missing or wrong canonical (expected ${canonical})`);
+    }
+
+    if (routeErrors.length) {
+      fail(`${routePath}\n      → ${routeErrors.join("\n      → ")}`);
+    } else {
+      ok(`${routePath}  "${title}"`);
+    }
+  }
+}
+
+const routesOnly = process.argv.includes("--routes");
+
+console.log("=".repeat(60));
+console.log("  PRERENDER VERIFICATION");
+console.log("=".repeat(60));
+
+const { routes: prerenderedRoutes, gated, excluded } = discoverRoutes();
+const sitemapRoutes = parseSitemapRoutes();
+auditRoutes(prerenderedRoutes, sitemapRoutes, gated, excluded);
+
+if (!routesOnly) {
+  await auditMetadata(prerenderedRoutes);
+  auditBuiltFiles(prerenderedRoutes);
+}
+
+console.log("\n" + "=".repeat(60));
+if (errors === 0) {
+  console.log(
+    `✅  All checks passed${
+      warnings ? ` (${warnings} warning${warnings > 1 ? "s" : ""})` : ""
+    }.`
+  );
+} else {
+  console.log(
+    `❌  ${errors} error${errors > 1 ? "s" : ""}${
+      warnings ? `, ${warnings} warning${warnings > 1 ? "s" : ""}` : ""
+    } found.`
+  );
+  process.exit(1);
+}
+console.log("=".repeat(60) + "\n");
