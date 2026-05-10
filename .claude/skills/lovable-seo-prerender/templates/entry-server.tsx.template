@@ -1,0 +1,40 @@
+// ⚠️  AUTO-GENERATED FILE — DO NOT EDIT BY HAND
+//
+// This file is regenerated from src/App.tsx on every build by:
+//   scripts/generate-entry-server.mjs
+//
+// Any manual edits will be overwritten the next time `npm run build` runs.
+// To change SSR behavior, edit the generator script instead.
+//
+// This template is shown for REFERENCE ONLY so you understand the output
+// shape. The actual file should never be written by hand.
+
+import React from "react";
+import ReactDOMServer from "react-dom/server";
+import { StaticRouter } from "react-router-dom/server";
+import { Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+// Page imports are auto-extracted from App.tsx — both default and named imports.
+import Index from "./pages/Index";
+// import About from "./pages/About";
+// import { ProductA, ProductB } from "./pages/Products";
+
+export function render(url: string) {
+  const queryClient = new QueryClient();
+
+  return ReactDOMServer.renderToString(
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <StaticRouter location={url}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            {/* Routes are auto-emitted from App.tsx — one <Route> per
+                non-gated, non-admin, non-wildcard path */}
+          </Routes>
+        </StaticRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
