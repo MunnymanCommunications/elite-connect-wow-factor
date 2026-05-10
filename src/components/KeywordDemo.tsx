@@ -53,9 +53,9 @@ export const KeywordDemo = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-6">
-              They Forgot Your Name.
+              Visual Learners Click
               <br />
-              <span className="font-serif italic gradient-iris">Not Anymore.</span>
+              <span className="font-serif italic gradient-iris">and swipe our videos like Reels</span>
             </h2>
 
             {/* Video Carousel */}

@@ -8,7 +8,9 @@ import logo from '@/assets/elite-card-pro-logo.png';
 const navLinks = [
   { label: 'Products', href: '/elite-contact-card' },
   { label: 'Review Placards', href: '/elite-review-placards' },
-  { label: 'AI Solutions', href: '/ai-solutions' },
+  { label: 'Web Design', href: '/web-design' },
+  { label: 'AI Agents', href: '/ai-solutions' },
+  { label: 'Custom Software', href: '/custom-software' },
   { label: 'Videos', href: '/videos' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/frequently-asked-questions' },

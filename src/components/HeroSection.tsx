@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 interface HeroSectionProps {
   onLearnMore: () => void;
   onGetStarted: () => void;
+  primaryLabel?: string;
+  secondaryLabel?: string;
 }
 
 const searchTerms = [
@@ -17,7 +19,7 @@ const searchTerms = [
 { keyword: 'plumber', name: 'Carlos Rivera', title: 'Master Plumber', icon: Wrench }];
 
 
-export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => {
+export const HeroSection = ({ onLearnMore, onGetStarted, primaryLabel = 'Get Your Elite Card', secondaryLabel = 'Watch Demo' }: HeroSectionProps) => {
   const [currentTerm, setCurrentTerm] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
@@ -153,7 +155,7 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
             size="lg"
             className="rounded-full px-10 py-6 text-base font-semibold bg-foreground text-background hover:bg-foreground/90 btn-ripple group">
             
-            Get Your Elite Card
+            {primaryLabel}
             <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
           <Button
@@ -163,7 +165,7 @@ export const HeroSection = ({ onLearnMore, onGetStarted }: HeroSectionProps) => 
             className="rounded-full px-10 py-6 text-base font-semibold border-border/50 hover:bg-secondary/50 liquid-glass group">
             
             <Play className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
-            Watch Demo
+            {secondaryLabel}
           </Button>
         </motion.div>
 
