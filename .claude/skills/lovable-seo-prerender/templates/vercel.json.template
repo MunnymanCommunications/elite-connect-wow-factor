@@ -1,0 +1,7 @@
+{
+  "buildCommand": "node scripts/generate-entry-server.mjs && vite build && node prerender.mjs",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
