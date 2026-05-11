@@ -84,17 +84,16 @@ const Index = () => {
         </div>
       </section>
 
+      <VideoSection />
+
       <CardDesignEmbed
         eyebrow="Card Designs"
         title={<>Choose Your <span className="font-serif italic gradient-iris">Signature Look</span></>}
         subtitle="Premium materials. Unforgettable first impressions."
       />
 
-
       {/* Outcome-driven service spotlights */}
       <ServiceSpotlights />
-
-      <VideoSection />
 
       <Footer />
     </div>
