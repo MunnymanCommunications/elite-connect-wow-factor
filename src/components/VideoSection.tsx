@@ -27,7 +27,7 @@ export const VideoSection = () => {
               loop
               muted
               playsInline
-              className="absolute inset-0 w-full h-full object-cover scale-[1.075]"
+              className="absolute inset-0 w-full h-full object-cover scale-x-[1.055] scale-y-100"
             />
             {/* Mask the "Project" watermark in the bottom-middle-right */}
             <div
