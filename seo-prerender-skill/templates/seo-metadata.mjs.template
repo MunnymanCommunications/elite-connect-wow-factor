@@ -1,0 +1,33 @@
+/**
+ * Per-page SEO metadata for prerendering.
+ * Used by prerender.mjs to inject unique <title>, <meta description>, and
+ * Open Graph / Twitter tags into each page's HTML.
+ *
+ * Routes WITHOUT an entry here still prerender — they just get an auto-
+ * generated fallback title/description, and the build prints a warning so
+ * you know which routes need real copy.
+ *
+ * KEY FORMAT — important:
+ *   - Keys must use trailing slashes: "/about/" not "/about"
+ *   - The homepage key is "/"
+ *   - prerender.mjs normalizes all routes to trailing-slash form before
+ *     lookup, so omitting the trailing slash will silently use the fallback
+ *
+ * COPY GUIDELINES:
+ *   - title: 50–60 chars. Format: "Page Topic | Company Name"
+ *   - description: 140–160 chars. Active voice, primary keyword early,
+ *     include a CTA-style cue ("Available at", "Serving X since...").
+ *   - Don't reuse the same description across pages.
+ */
+
+export const SEO_METADATA = {
+  "/": {
+    title: "Company Name | Tagline With Primary Keywords",
+    description:
+      "What you do, who you serve, where you operate, and the most compelling reason to click. Around 150 characters.",
+  },
+  // "/about/": {
+  //   title: "About Us | Company Name",
+  //   description: "...",
+  // },
+};
